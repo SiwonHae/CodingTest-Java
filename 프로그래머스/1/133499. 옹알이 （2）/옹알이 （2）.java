@@ -24,10 +24,6 @@ class Solution {
                     isSeqOrCantPron = true;
                     break;
                 }
-                if (Character.isLetter(str[j].charAt(0))) {
-                    isSeqOrCantPron = true;
-                    break;
-                }
             }
 
             for (int j = 0; j < str.length; j++) {
