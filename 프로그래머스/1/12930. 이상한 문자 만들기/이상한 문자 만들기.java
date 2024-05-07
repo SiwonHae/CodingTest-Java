@@ -2,23 +2,24 @@ class Solution {
     public String solution(String s) {
         String answer = "";
 
-        String[] str = s.split("");
-        int index = 0;
+        StringBuilder sb = new StringBuilder();
+        boolean isUpper = true;
 
-        for (int i = 0; i < str.length; i++) {
-            if (str[i].equals(" ")) {
-                index = 0;
+        for (char c : s.toCharArray()) {
+            if (!Character.isAlphabetic(c)) {
+                sb.append(c);
+                isUpper = true;
             } else {
-                index++;
+                if (isUpper) {
+                    sb.append(Character.toUpperCase(c));
+                } else {
+                    sb.append(Character.toLowerCase(c));
+                }
+                isUpper = !isUpper;
             }
-
-            if (index % 2 == 0) {
-                answer += str[i].toLowerCase();
-            } else {
-                answer += str[i].toUpperCase();
-            }
-            
         }
+
+        answer = sb.toString();
 
         return answer;
     }
