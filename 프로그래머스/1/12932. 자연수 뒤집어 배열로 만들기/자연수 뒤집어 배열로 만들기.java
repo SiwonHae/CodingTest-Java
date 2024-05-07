@@ -1,17 +1,14 @@
 class Solution {
     public int[] solution(long n) {
-        
-        String num = String.valueOf(n);
-        char[] number = num.toCharArray();
 
-        int[] answer = new int[number.length];
+        String s = String.valueOf(n);
+        char[] cArr = s.toCharArray();
 
-        System.out.println(number.toString());
+        int[] answer = new int[cArr.length];
         
-        int index = number.length - 1;
-        for (int i = 0; i < number.length; i++) {
-            answer[i] = number[index] - '0';
-            index--;
+        int idx = cArr.length - 1;
+        for (int i = 0; i < cArr.length; i++) {
+            answer[i] = Integer.parseInt(String.valueOf(cArr[idx--]));
         }
         
         return answer;
