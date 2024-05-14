@@ -1,31 +1,35 @@
 class Solution {
-    public int[] solution(String s) {
-        // 이진 변환의 횟수와 제거된 0의 개수 반환
 
-        int[] answer = new int[2];
-        int transferCnt = 0;
-        int removeZeroCnt = 0;
+    private int countZeros(String s) {
+        int zeros = 0;
 
-        while (!s.equals("1")) {
-            String[] str = s.split("");
-            int removeZeroLength = str.length;
-            String removeStr = "";
-
-            for (int i = 0; i < removeZeroLength; i++) {
-                if (str[i].equals("1")) {
-                    removeStr += "1";
-                } else if (str[i].equals("0")) {
-                    removeZeroCnt++;
-                }
+        for (char c : s.toCharArray()) {
+            if (c == '0') {
+                zeros++;
             }
-
-            transferCnt++;
-            removeZeroLength = removeStr.length();
-            s = Integer.toBinaryString(removeZeroLength);
         }
 
-        answer[0] = transferCnt;
-        answer[1] = removeZeroCnt;
+        return zeros;
+    }
+
+    public int[] solution(String s) {
+        int[] answer = new int[2];
+
+        int loop = 0;
+        int removed = 0;
+
+        while (!s.equals("1")) {
+            int zeros = countZeros(s);
+            removed += zeros;
+            loop++;
+
+            int length = s.length() - zeros;
+            s = Integer.toBinaryString(length);
+        }
+
+
+        answer[0] = loop;
+        answer[1] = removed;
 
         return answer;
     }
