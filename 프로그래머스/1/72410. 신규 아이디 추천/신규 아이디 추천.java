@@ -6,58 +6,28 @@ class Solution {
         new_id = new_id.toLowerCase();
 
         // 2단계
-        char[] str = new_id.toCharArray();
-        new_id = "";
-        for (int i = 0 ; i < str.length; i++) {
-            char c = str[i];
-            if (Character.isLetterOrDigit(c) || c == '-' || c == '_' || c == '.') {
-                new_id += c;
-            }
-        }
+        new_id = new_id.replaceAll("[^a-z0-9\\-_.]", "");
 
         // 3단계
-        String[] s = new_id.split("");
-        new_id = "";
-        for (int i = 0; i < s.length; i++) {
-            if (s[i].equals(".")) {
-                int idx = i + 1;
-                while (idx < s.length && s[idx].equals(".")) {
-                    idx++;
-                }
-                i = idx - 1;
-                new_id += ".";
-            } else {
-                new_id += s[i];
-            }
-        }
+        new_id = new_id.replaceAll("\\.+", ".");
 
         // 4단계
-        if (new_id.charAt(0) == '.') {
-            new_id = new_id.substring(1);
-        } else if (new_id.charAt(new_id.length() - 1) == '.') {
-            new_id = new_id.substring(0, new_id.length() - 1);
-        }
+        new_id = new_id.replaceAll("^\\.+|\\.+$", "");
 
         // 5단계
-        if (new_id.length() == 0) {
+        if (new_id.isEmpty()) {
             new_id = "a";
         }
 
         // 6단계
-        if (new_id.length() >= 16) {
-            new_id = new_id.substring(0, 15);
-        }
+         if (new_id.length() >= 16) {
+             new_id = new_id.substring(0, 15);
+             new_id = new_id.replaceAll("\\.+$", "");
+         }
 
-        if (new_id.charAt(new_id.length() - 1) == '.') {
-            new_id = new_id.substring(0, new_id.length() - 1);
-        }
-
-        // 7단계
-        if (new_id.length() <= 2) {
-            char c = new_id.charAt(new_id.length() - 1);
-            while (new_id.length() != 3) {
-                new_id += c;
-            }
+         // 7단계
+        while (new_id.length() <= 2) {
+            new_id += new_id.charAt(new_id.length() - 1);
         }
         
         answer = new_id;
