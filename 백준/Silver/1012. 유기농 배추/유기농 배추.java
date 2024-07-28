@@ -40,7 +40,7 @@ public class Main {
             for (int j = 0; j < m; j++) {
                 for (int l = 0; l < n; l++) {
                     if (board[j][l] == 1 && !visited[j][l]) {
-                        bfs(j, l);
+                        dfs(j, l);
                         result++;
                     }
                 }
@@ -49,6 +49,25 @@ public class Main {
         }
 
         bw.flush();
+    }
+
+    public static void dfs(int x, int y) {
+
+        if (visited[x][y]) {
+            return;
+        }
+
+        visited[x][y] = true;
+        for (int i = 0; i < 4; i++) {
+            int nx = dx[i] + x;
+            int ny = dy[i] + y;
+
+            if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                if (board[nx][ny] == 1 && !visited[nx][ny]) {
+                    dfs(nx, ny);
+                }
+            }
+        }
     }
 
     public static void bfs(int startX, int startY) {
