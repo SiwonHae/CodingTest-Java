@@ -2,26 +2,26 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] numbers) {
-        List<Integer> num = new ArrayList<>();
-
+        
+        List<Integer> list = new ArrayList<>();
+        
         for (int i = 0; i < numbers.length; i++) {
             for (int j = i + 1; j < numbers.length; j++) {
-                int sum = 0;
-                sum += numbers[i] + numbers[j];
-                if (!num.contains(sum)) {
-                    num.add(sum);
+                int num = numbers[i] + numbers[j];
+                if (!list.contains(num)) {
+                    list.add(num);
                 }
             }
         }
-
-        int listSize = num.size();
-        int[] answer = new int[listSize];
-        for (int i = 0; i < listSize; i++) {
-            answer[i] = num.get(i);
+        
+        Collections.sort(list);
+        
+        int[] answer = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            answer[i] = list.get(i);
         }
-
-        Arrays.sort(answer);
-
+        
+        
         return answer;
     }
 }
