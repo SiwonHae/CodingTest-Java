@@ -4,7 +4,7 @@ import java.util.*;
 public class Main {
 
     static int[][] board;
-    static boolean[][] visited;
+    static int[][] newBoard;
     static int[] dy = {-1, 1, 0, 0};
     static int[] dx = {0, 0, -1, 1};
     static int result = 0;
@@ -20,7 +20,6 @@ public class Main {
         m = Integer.parseInt(st.nextToken());
 
         board = new int[n][m];
-        visited = new boolean[n][m];
 
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
@@ -55,32 +54,18 @@ public class Main {
     public static void makeVirus() { // bfs
         Queue<int[]> queue = new LinkedList<>();
 
-        int[][] newBoard = new int[n][m];
+        newBoard = new int[n][m];
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 newBoard[i][j] = board[i][j];
-
-                if (newBoard[i][j] == 2) {
-                    queue.add(new int[] {i, j});
-                }
             }
         }
 
-        while (!queue.isEmpty()) {
-            int[] current = queue.poll();
-            int y = current[0];
-            int x = current[1];
-
-            for (int i = 0; i < 4; i++) {
-                int ny = y + dy[i];
-                int nx = x + dx[i];
-
-                if (ny >= 0 && ny < n && nx >= 0 && nx < m) {
-                    if (newBoard[ny][nx] == 0) {
-                        newBoard[ny][nx] = 2;
-                        queue.add(new int[] {ny, nx});
-                    }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (newBoard[i][j] == 2) {
+                    dfs(i, j);
                 }
             }
         }
@@ -95,5 +80,19 @@ public class Main {
         }
 
         result = Math.max(result, cnt);
+    }
+
+    public static void dfs(int y, int x) {
+        for (int i = 0; i < 4; i++) {
+            int ny = y + dy[i];
+            int nx = x + dx[i];
+
+            if (ny >= 0 && ny < n && nx >= 0 && nx < m) {
+                if (newBoard[ny][nx] == 0) {
+                    newBoard[ny][nx] = 2;
+                    dfs(ny, nx);
+                }
+            }
+        }
     }
 }
