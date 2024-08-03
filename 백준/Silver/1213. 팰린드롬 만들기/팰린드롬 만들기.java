@@ -2,23 +2,24 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 //        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        String input = br.readLine();
+        String name = br.readLine();
+
         int[] arr = new int[26];
-
-        // 팰린드롬은 홀수개의 문자가 2개 이상 존재하면 만들 수 없다.
-
-        for (int i = 0; i < input.length(); i++) {
-            int idx = input.charAt(i) - 'A';
-            arr[idx]++;
-        }
-
         int oddCnt = 0;
         int middle = 0;
+        // 홀수인 알파벳이 2개 이상이면 펠린드롬 불가.
+        // 홀수인 알파벳이 중간에 들어가야 펠린드롬이 된다.
+
+        for (int i = 0; i < name.length(); i++) {
+            arr[name.charAt(i) - 'A']++;
+        }
+
         for (int i = 0; i < 26; i++) {
             if (arr[i] % 2 != 0) {
                 oddCnt++;
