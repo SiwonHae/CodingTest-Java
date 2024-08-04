@@ -2,44 +2,28 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
     static int[][] board;
+    static int N;
     static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-//        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n = Integer.parseInt(br.readLine());
-        board = new int[n][n];
+        N = Integer.parseInt(br.readLine());
+        board = new int[N][N];
 
-        for (int i = 0; i < n; i++) {
-            String s = br.readLine();
-            for (int j = 0; j < n; j++) {
-                board[i][j] = s.charAt(j) - '0';
+        for (int i = 0; i < N; i++) {
+            String input = br.readLine();
+            for (int j = 0; j < N; j++) {
+                board[i][j] = input.charAt(j) - '0';
             }
         }
 
-        quadTree(0, 0, n);
+        quadTree(0, 0, N);
 
         bw.write(sb.toString());
         bw.flush();
-    }
-
-    public static void quadTree(int y, int x, int size) {
-        if (isCompress(y, x, size)) {
-            sb.append(board[y][x]);
-        } else {
-            int newSize = size / 2;
-
-            sb.append("(");
-            quadTree(y, x, newSize); // 왼쪽 위
-            quadTree(y, x + newSize, newSize); // 오른쪽 위
-            quadTree(y + newSize, x, newSize); // 왼쪽 아래
-            quadTree(y + newSize, x + newSize, newSize); // 오른쪽 아래
-            sb.append(")");
-        }
     }
 
     public static boolean isCompress(int y, int x, int size) {
@@ -59,4 +43,18 @@ public class Main {
 
         return true;
     }
+
+    public static void quadTree(int y, int x, int size) {
+        if (isCompress(y, x, size)) {
+            sb.append(board[y][x]);
+        } else {
+            sb.append("(");
+            quadTree(y, x, size / 2); // 왼쪽 위
+            quadTree(y, x + size / 2, size / 2); // 오른쪽 위
+            quadTree(y + size / 2, x, size / 2); // 왼쪽 아래
+            quadTree(y + size / 2, x + size / 2, size / 2); // 오른쪽 아래
+            sb.append(")");
+        }
+    }
+
 }
