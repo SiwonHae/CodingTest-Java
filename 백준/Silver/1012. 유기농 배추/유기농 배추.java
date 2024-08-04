@@ -2,95 +2,67 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
+    static int[] dy = {-1, 1, 0, 0};
+    static int[] dx = {0, 0, -1, 1};
     static int[][] board;
     static boolean[][] visited;
-    static int[] dx = {0, 0, -1, 1};
-    static int[] dy = {1, -1, 0, 0};
-    static int t;
-    static int m;
-    static int n;
-    static int k;
-    static int result;
+    static int N, M, K;
+    static int result = 0;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        t = Integer.parseInt(st.nextToken());
+        int T = Integer.parseInt(br.readLine());
+        StringTokenizer st;
 
-        for (int i = 0; i < t; i++) {
+        for (int i = 0; i < T; i++) {
             st = new StringTokenizer(br.readLine());
-            m = Integer.parseInt(st.nextToken());
-            n = Integer.parseInt(st.nextToken());
-            k = Integer.parseInt(st.nextToken());
+            M = Integer.parseInt(st.nextToken());
+            N = Integer.parseInt(st.nextToken());
+            K = Integer.parseInt(st.nextToken());
 
-            board = new int[m][n];
-            visited = new boolean[m][n];
+            board = new int[N][M];
+            visited = new boolean[N][M];
             result = 0;
 
-            for (int j = 0; j < k; j++) {
+            for (int j = 0; j < K; j++) {
                 st = new StringTokenizer(br.readLine());
                 int x = Integer.parseInt(st.nextToken());
                 int y = Integer.parseInt(st.nextToken());
-                board[x][y] = 1;
+                board[y][x] = 1;
             }
 
-            for (int j = 0; j < m; j++) {
-                for (int l = 0; l < n; l++) {
-                    if (board[j][l] == 1 && !visited[j][l]) {
-                        dfs(j, l);
+            for (int j = 0; j < N; j++) {
+                for (int k = 0; k < M; k++) {
+                    if (board[j][k] == 1 && !visited[j][k]) {
+                        dfs(j, k);
                         result++;
                     }
                 }
             }
+
             bw.write(result + "\n");
         }
 
         bw.flush();
     }
 
-    public static void dfs(int x, int y) {
+    public static void dfs(int y, int x) {
 
-        if (visited[x][y]) {
+        if (visited[y][x]) {
             return;
         }
 
-        visited[x][y] = true;
+        visited[y][x] = true;
+
         for (int i = 0; i < 4; i++) {
-            int nx = dx[i] + x;
-            int ny = dy[i] + y;
+            int ny = y + dy[i];
+            int nx = x + dx[i];
 
-            if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
-                if (board[nx][ny] == 1 && !visited[nx][ny]) {
-                    dfs(nx, ny);
-                }
-            }
-        }
-    }
-
-    public static void bfs(int startX, int startY) {
-
-        Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[] {startX, startY});
-
-        visited[startX][startY] = true;
-
-        while (!queue.isEmpty()) {
-            int[] current = queue.poll();
-            int x = current[0];
-            int y = current[1];
-
-            for (int i = 0; i < 4; i++) {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
-
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
-                    if (board[nx][ny] == 1 && !visited[nx][ny]) {
-                        visited[nx][ny] = true;
-                        queue.add(new int[] {nx, ny});
-                    }
+            if (ny >= 0 && ny < N && nx >= 0 && nx < M) {
+                if (board[ny][nx] == 1 && !visited[ny][nx]) {
+                    dfs(ny, nx);
                 }
             }
         }
