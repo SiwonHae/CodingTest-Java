@@ -7,31 +7,27 @@ public class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int h = Integer.parseInt(st.nextToken());
-        int w = Integer.parseInt(st.nextToken());
+        int H = Integer.parseInt(st.nextToken());
+        int W = Integer.parseInt(st.nextToken());
 
-        int[][] board = new int[h][w];
-        for (int i = 0; i < h; i++) {
-            Arrays.fill(board[i], -1);
-        }
+        int[][] board = new int[H][W];
 
-        for (int i = 0; i < h; i++) {
-            String s = br.readLine();
-            for (int j = 0; j < w; j++) {
-                char c = s.charAt(j);
-
-                if (c == 'c') {
-                    board[i][j] = w + 1; // 시작 구름의 위치 표시
+        for (int i = 0; i < H; i++) {
+            String input = br.readLine();
+            for (int j = 0; j < W; j++) {
+                if (input.charAt(j) == 'c') {
+                    board[i][j] = 0;
+                } else {
+                    board[i][j] = -1;
                 }
             }
         }
 
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                if (board[i][j] == w + 1) {
-                    board[i][j] = 0;
-                    for (int k = j + 1; k < w; k++) {
-                        if (board[i][k] != w + 1) {
+        for (int i = 0; i < H; i++) {
+            for (int j = 0; j < W; j++) {
+                if (board[i][j] == 0) {
+                    for (int k = j + 1; k < W; k++) {
+                        if (board[i][k] != 0) {
                             board[i][k] = board[i][k - 1] + 1;
                         }
                     }
@@ -39,8 +35,8 @@ public class Main {
             }
         }
 
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
+        for (int i = 0; i < H; i++) {
+            for (int j = 0; j < W; j++) {
                 bw.write(board[i][j] + " ");
             }
             bw.write("\n");
