@@ -1,40 +1,39 @@
 import java.io.*;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-//        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int m = Integer.parseInt(br.readLine());
-
+        int M = Integer.parseInt(br.readLine());
         List<BigInteger> list = new ArrayList<>();
 
-        for (int i = 0; i < m; i++) {
-            String s = br.readLine();
+        for (int i = 0; i < M; i++) {
+            String input = br.readLine();
 
-            boolean flags = false;
-            String number = "";
+            StringBuilder sb = new StringBuilder();
+            boolean isSeq = false;
 
-            for (int j = 0; j < s.length(); j++) {
-                char c = s.charAt(j);
+            for (int j = 0; j < input.length(); j++) {
+                char c = input.charAt(j);
 
-                if (Character.isLetter(c) && !flags && !number.equals("")) {
-                    flags = true;
-                    list.add(new BigInteger(number));
-                    number = "";
-                } else if (Character.isDigit(c)) {
-                    flags = false;
-                    number += c;
+                if (Character.isDigit(c)) {
+                    sb.append(c);
+                    isSeq = true;
+                } else if (Character.isLetter(c)) {
+                    isSeq = false;
                 }
 
-                if (j == s.length() - 1 && !number.equals("")) {
-                    list.add(new BigInteger(number));
+                if (!isSeq && !sb.toString().equals("")) {
+                    list.add(new BigInteger(sb.toString()));
+                    sb = new StringBuilder();
+                }
+
+                // 마지막 문자인 경우 체크
+                if (j == input.length() - 1 && !sb.toString().equals("")) {
+                    list.add(new BigInteger(sb.toString()));
                 }
             }
         }
