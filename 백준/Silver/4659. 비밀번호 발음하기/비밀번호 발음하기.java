@@ -1,64 +1,58 @@
 import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-//        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        String s = "";
-        while (true) {
-            s = br.readLine();
-            if (s.equals("end")) {
-                break;
-            }
+        String[] vowel = {"a", "e", "i", "o", "u"};
 
-            boolean hasVowel = false;
+        String input = "";
+        while (!(input = br.readLine()).equals("end")) {
 
-            boolean hasThreeSeq = false;
-            int vowelSeqCnt = 0;
-            int consonantSeqCnt = 0;
+            boolean isVowel = false;
+            boolean isSeqVowelOrConsonant = false;
+            boolean isSeqSame = false;
 
-            boolean hasDoubleSeq = false;
+            int vowelCnt = 0;
+            int consonantCnt = 0;
+            for (int i = 0; i < input.length(); i++) {
+                char c = input.charAt(i);
 
-            for (int i = 0; i < s.length(); i++) {
-                char c = s.charAt(i);
-
-                if (isVowel(c)) {
-                    hasVowel = true;
-                    vowelSeqCnt++;
-                    consonantSeqCnt = 0;
+                if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+                    isVowel = true;
+                    vowelCnt++;
+                    consonantCnt = 0;
                 } else {
-                    consonantSeqCnt++;
-                    vowelSeqCnt = 0;
+                    consonantCnt++;
+                    vowelCnt = 0;
                 }
 
-                if (vowelSeqCnt >= 3 || consonantSeqCnt >= 3) {
-                    hasThreeSeq = true;
+                if (vowelCnt >= 3 || consonantCnt >= 3) {
+                    isSeqVowelOrConsonant = true;
                     break;
                 }
 
-                if (i < s.length() - 1) {
-                    char c2 = s.charAt(i + 1);
+                if (i < input.length() - 1) {
+                    char c2 = input.charAt(i + 1);
                     if (c == c2) {
                         if (c != 'e' && c != 'o') {
-                            hasDoubleSeq = true;
+                            isSeqSame = true;
+                            break;
                         }
                     }
                 }
             }
 
-            if (!hasVowel || hasThreeSeq || hasDoubleSeq) {
-                bw.write("<" + s + "> is not acceptable.\n");
+            bw.write("<" + input + "> is ");
+            if (!isVowel || isSeqVowelOrConsonant || isSeqSame) {
+                bw.write("not acceptable.\n");
             } else {
-                bw.write("<" + s + "> is acceptable.\n");
+                bw.write("acceptable.\n");
             }
         }
 
         bw.flush();
-    }
-
-    public static boolean isVowel(char c) {
-        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
     }
 }
