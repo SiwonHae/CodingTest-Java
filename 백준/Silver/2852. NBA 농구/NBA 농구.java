@@ -5,32 +5,32 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(br.readLine());
 
         int score1 = 0;
         int score2 = 0;
 
-        int lastTime = 0;
+        int lastLeadChangeTime = 0;
 
         int leadTime1 = 0;
         int leadTime2 = 0;
 
-        for (int i = 0; i < n; i++) {
+        int endTime = 60 * 48;
+
+        StringTokenizer st;
+        for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
 
             int team = Integer.parseInt(st.nextToken());
-            String inputTime = st.nextToken();
 
-            int min = Integer.parseInt(inputTime.split(":")[0]);
-            int sec = Integer.parseInt(inputTime.split(":")[1]);
-            int time = min * 60 + sec;
+            String[] strTime = st.nextToken().split(":");
+            int scoreTime = Integer.parseInt(strTime[0]) * 60 + Integer.parseInt(strTime[1]);
 
             if (score1 > score2) {
-                leadTime1 += time - lastTime;
+                leadTime1 += scoreTime - lastLeadChangeTime;
             } else if (score2 > score1) {
-                leadTime2 += time - lastTime;
+                leadTime2 += scoreTime - lastLeadChangeTime;
             }
 
             if (team == 1) {
@@ -39,26 +39,21 @@ public class Main {
                 score2++;
             }
 
-            lastTime = time;
+            lastLeadChangeTime = scoreTime;
         }
-
-        int endTime = 48 * 60;
 
         if (score1 > score2) {
-            leadTime1 += endTime - lastTime;
+            leadTime1 += endTime - lastLeadChangeTime;
         } else if (score2 > score1) {
-            leadTime2 += endTime - lastTime;
+            leadTime2 += endTime - lastLeadChangeTime;
         }
 
-        bw.write(print(leadTime1) + "\n");
-        bw.write(print(leadTime2) + "\n");
-
+        int min1 = leadTime1 / 60;
+        int sec1 = leadTime1 % 60;
+        int min2 = leadTime2 / 60;
+        int sec2 = leadTime2 % 60;
+        bw.write(String.format("%02d:%02d\n", min1, sec1));
+        bw.write(String.format("%02d:%02d\n", min2, sec2));
         bw.flush();
-    }
-
-    public static String print(int sec) {
-        int min = sec / 60;
-        int second = sec % 60;
-        return String.format("%02d:%02d", min, second);
     }
 }
