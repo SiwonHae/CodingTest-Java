@@ -7,21 +7,22 @@ public class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 //        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int t = Integer.parseInt(br.readLine());
-        for (int i = 0; i < t; i++) {
-            int n = Integer.parseInt(br.readLine());
+        int T = Integer.parseInt(br.readLine());
+
+        for (int i = 0; i < T; i++) {
+            int N = Integer.parseInt(br.readLine());
 
             int twoCnt = 0;
             int fiveCnt = 0;
-            
-            for (int j = 2; j <= n; j *= 2) {
-                twoCnt += n / j;    
+
+            for (int j = 2; j <= N; j *= 2) {
+                twoCnt += N / j;
             }
-            
-            for (int j = 5; j <= n; j*= 5) {
-                fiveCnt += n / j;
+
+            for (int j = 5; j <= N; j *= 5) {
+                fiveCnt += N / j;
             }
-            
+
             bw.write(Math.min(twoCnt, fiveCnt) + "\n");
         }
 
