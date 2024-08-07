@@ -3,46 +3,45 @@ import java.util.*;
 
 public class Main {
 
-    static int[][] board;
-    static boolean[][] visited;
     static int[] dy = {-1, 1, 0, 0};
     static int[] dx = {0, 0, -1, 1};
-    static int time = 0;
-    static int cnt = 0;
-    static int n;
-    static int m;
+    static int N, M;
+    static int[][] board;
+    static boolean[][] visited;
+    static int cheeseCnt = 0;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
-        board = new int[n][m];
+        board = new int[N][M];
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < m; j++) {
+
+            for (int j = 0; j < M; j++) {
                 board[i][j] = Integer.parseInt(st.nextToken());
                 if (board[i][j] == 1) {
-                    cnt++;
+                    cheeseCnt++;
                 }
             }
         }
 
-        int currentCnt = 0;
-        time = 0;
+        int currentCheeseCnt = 0;
+        int time = 0;
 
-        while (cnt > 0) {
-            currentCnt = cnt;
+        while (cheeseCnt > 0) {
+            currentCheeseCnt = cheeseCnt;
             time++;
-            visited = new boolean[n][m];
+            visited = new boolean[N][M];
             dfs(0, 0);
         }
 
-        bw.write(time + "\n" + currentCnt);
+        bw.write(time + "\n" + currentCheeseCnt);
         bw.flush();
     }
 
@@ -53,21 +52,23 @@ public class Main {
         }
 
         visited[y][x] = true;
-        for (int i = 0; i < 4; i++) {
-            int ny = dy[i] + y;
-            int nx = dx[i] + x;
 
-            if (ny >= 0 && ny < n && nx >= 0 && nx < m) {
+        for (int i = 0; i < 4; i++) {
+            int ny = y + dy[i];
+            int nx = x + dx[i];
+
+            if (ny >= 0 && ny < N && nx >= 0 && nx < M) {
                 if (!visited[ny][nx]) {
                     if (board[ny][nx] == 0) {
                         dfs(ny, nx);
-                    } else {
+                    } else if (board[ny][nx] == 1) {
                         board[ny][nx] = 0;
-                        cnt--;
+                        cheeseCnt--;
                         visited[ny][nx] = true;
                     }
                 }
             }
         }
+
     }
 }
