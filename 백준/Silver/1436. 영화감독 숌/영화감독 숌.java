@@ -5,21 +5,21 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(br.readLine());
 
         int cnt = 1;
-        int start = 666;
-        while (n != cnt) {
-            start++;
+        int i = 666;
+        while (cnt != N) {
+            i++;
 
-            if (String.valueOf(start).contains("666")) {
+            String s = String.valueOf(i);
+            if (s.contains("666")) {
                 cnt++;
             }
         }
 
-        bw.write(String.valueOf(start));
+        bw.write(String.valueOf(i));
         bw.flush();
     }
 }
