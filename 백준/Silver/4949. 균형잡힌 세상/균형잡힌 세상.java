@@ -5,50 +5,46 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-//        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        while (true) {
-            String input = br.readLine();
-            if (input.equals(".")) {
-                bw.flush();
-                return;
-            }
+        String input = "";
+        while (!(input = br.readLine()).equals(".")) {
+            Stack<Character> stack = new Stack<>();
 
-            Stack<String> stack = new Stack<>();
-            String[] s = input.split("");
-            boolean isVPS = true;
+            boolean isValid = true;
 
-            for (int j = 0; j < s.length; j++) {
-                if (s[j].equals("(")) {
-                    stack.add(s[j]);
-                } else if (s[j].equals("[")) {
-                    stack.add(s[j]);
-                } else if (s[j].equals(")")) {
-                    if (!stack.isEmpty() && stack.peek().equals("(")) {
-                        stack.pop();
+            for (int i = 0; i < input.length(); i++) {
+                char c = input.charAt(i);
+
+                if (c == '(' || c == '[') {
+                    stack.push(c);
+                } else if (c == ')' || c == ']') {
+                    if (!stack.isEmpty()) {
+                        if (stack.peek() == '(' && c == ')') {
+                            stack.pop();
+                        } else if (stack.peek() == '[' && c == ']') {
+                            stack.pop();
+                        } else {
+                            isValid = false;
+                            break;
+                        }
                     } else {
-                        isVPS = false;
-                        break;
-                    }
-                } else if (s[j].equals("]")) {
-                    if (!stack.isEmpty() && stack.peek().equals("[")) {
-                        stack.pop();
-                    } else {
-                        isVPS = false;
+                        isValid = false;
                         break;
                     }
                 }
             }
 
             if (!stack.isEmpty()) {
-                isVPS = false;
+                isValid = false;
             }
 
-            if (isVPS) {
-                bw.write("yes \n");
+            if (isValid) {
+                bw.write("yes\n");
             } else {
-                bw.write("no \n");
+                bw.write("no\n");
             }
         }
+
+        bw.flush();
     }
 }
