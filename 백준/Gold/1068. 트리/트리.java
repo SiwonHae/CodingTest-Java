@@ -3,31 +3,30 @@ import java.util.*;
 
 public class Main {
 
+    static int N;
     static List<Integer>[] tree;
-    static int n;
-    static int root;
-    static int remove;
+    static int root, remove;
+    static int result = 0;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        n = Integer.parseInt(st.nextToken());
-        tree = new ArrayList[n]; // 배열 초기화
+        N = Integer.parseInt(br.readLine());
 
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            tree[i] = new ArrayList<>(); // 요소 초기화
+        tree = new ArrayList[N];
+        for (int i = 0; i < N; i++) {
+            tree[i] = new ArrayList<>();
         }
 
-        for (int i = 0; i < n; i++) {
-            int node = Integer.parseInt(st.nextToken());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            int parent = Integer.parseInt(st.nextToken());
 
-            if (node == -1) {
+            if (parent == -1) {
                 root = i;
             } else {
-                tree[node].add(i);
+                tree[parent].add(i);
             }
         }
 
@@ -39,28 +38,27 @@ public class Main {
             return;
         }
 
-        bw.write(String.valueOf(dfs(root)));
+        dfs(root);
+
+        bw.write(String.valueOf(result));
         bw.flush();
     }
 
-    public static int dfs(int node) {
+    public static void dfs(int node) {
+        if (node == remove) {
+            return;
+        }
 
-        int result = 0;
-        int child = 0;
-
-        for (int number : tree[node]) {
-            if (number == remove) {
-                continue;
+        int childCnt = 0;
+        for (int child : tree[node]) {
+            if (child != remove) {
+                childCnt++;
+                dfs(child);
             }
-
-            result += dfs(number);
-            child++;
         }
 
-        if (child == 0) {
-            return 1;
+        if (childCnt == 0) {
+            result++;
         }
-
-        return result;
     }
 }
