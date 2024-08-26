@@ -9,15 +9,12 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine());
 
-        PriorityQueue<Lecture> pq = new PriorityQueue<>(new Comparator<Lecture>() {
-            @Override
-            public int compare(Lecture o1, Lecture o2) {
-                if (o1.pay == o2.pay) {
-                    return o2.day - o1.day;
-                }
-
-                return o2.pay - o1.pay;
+        PriorityQueue<Lecture> pq = new PriorityQueue<>((o1, o2) -> {
+            if (o1.pay == o2.pay) {
+                return o2.day - o1.day;
             }
+
+            return o2.pay - o1.pay;
         });
 
         for (int i = 0; i < n; i++) {
@@ -45,7 +42,6 @@ public class Main {
         bw.write(String.valueOf(result));
         bw.flush();
     }
-
 }
 
 class Lecture {
@@ -56,4 +52,5 @@ class Lecture {
         this.pay = pay;
         this.day = day;
     }
+
 }
