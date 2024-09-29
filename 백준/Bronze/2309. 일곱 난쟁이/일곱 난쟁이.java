@@ -5,28 +5,30 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-//        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        List<Integer> list = new ArrayList<>();
+        int[] arr = new int[9];
         int sum = 0;
+
         for (int i = 0; i < 9; i++) {
-            list.add(Integer.parseInt(br.readLine()));
-            sum += list.get(i);
+            arr[i] = Integer.parseInt(br.readLine());
+            sum += arr[i];
         }
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 9; i++) {
             for (int j = i + 1; j < 9; j++) {
-                if (sum - list.get(i) - list.get(j) == 100) {
-                    list.set(i, 0);
-                    list.set(j, 0);
-                    Collections.sort(list);
-                    for (int k = 2; k < list.size(); k++) {
-                        bw.write(list.get(k) + "\n");
+                if (sum - arr[i] - arr[j] == 100) {
+                    arr[i] = -1;
+                    arr[j] = -1;
+
+                    Arrays.sort(arr);
+                    for (int k = 2; k < 9; k++) {
+                        bw.write(arr[k] + "\n");
                     }
                     bw.flush();
                     return;
                 }
             }
         }
+        
     }
 }
