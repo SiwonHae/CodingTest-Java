@@ -1,35 +1,32 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static void main(String args[]) throws IOException {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
 
-        int n = Integer.parseInt(st.nextToken());
+        int result = 0;
 
-        int cnt = 0;
+        while (N >= 0) {
 
-        while (n > 0) {
-            if (n % 5 == 0) {
-                cnt += n / 5;
-                bw.write(String.valueOf(cnt));
-                bw.flush();
-                return;
+            if (N % 5 == 0) {
+                result += N / 5;
+                break;
+            } else {
+                N -= 3;
+                result++;
             }
 
-            if (n < 3) {
-                bw.write(String.valueOf(-1));
-                bw.flush();
-                return;
-            }
-
-            n -= 3;
-            cnt++;
         }
 
-        bw.write(String.valueOf(cnt));
+        if (N < 0) {
+            bw.write(String.valueOf(-1));
+        } else {
+            bw.write(String.valueOf(result));
+        }
+
         bw.flush();
     }
 }
