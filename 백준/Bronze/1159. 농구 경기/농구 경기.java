@@ -5,28 +5,28 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-//        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n = Integer.parseInt(br.readLine());
-        String[] s = new String[n];
-        int[] alphabet = new int[26];
-        for (int i = 0; i < n; i++) {
-            s[i] = br.readLine();
-            alphabet[s[i].charAt(0) - 'a']++;
+        int N = Integer.parseInt(br.readLine());
+
+        int[] a = new int[26];
+
+        for (int i = 0; i < N; i++) {
+            String name = br.readLine();
+
+            a[name.charAt(0) - 'a']++;
         }
 
-        int cnt = 0;
-        for (int i = 0; i < 26; i++) {
-            if (alphabet[i] >= 5) {
-                cnt++;
-                bw.write((char) i + 'a');
+        boolean flags = false;
+
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] >= 5) {
+                flags = true;
+                bw.write((char) (i + 'a'));
             }
         }
 
-        if (cnt == 0) {
+        if (!flags) {
             bw.write("PREDAJA");
-            bw.flush();
-            return;
         }
 
         bw.flush();
