@@ -2,34 +2,37 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-//        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        String S = br.readLine();
+        String s = br.readLine();
 
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < S.length(); i++) {
-            char c = S.charAt(i);
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
 
-            // 대문자
-            if (c >= 'A' && c <= 'Z') {
-                if (c + 13 > 'Z') {
-                    c = (char) (c + 13 - 'Z' + 'A' - 1);
-                } else {
+            // 소문자
+            if (c >= 'a' && c <= 'z') {
+                if ((c + 13) % 'a' >= 26) {
                     c += 13;
-                }
-            } else if (c >= 'a' && c <= 'z') { // 소문자
-                if (c + 13 > 'z') {
-                    c = (char) (c + 13 - 'z' + 'a' - 1);
+                    c -= 26;
                 } else {
                     c += 13;
                 }
             }
 
+            // 대문자
+            if (c >= 'A' && c <= 'Z') {
+                if ((c + 13) % 'A' >= 26) {
+                    c += 13;
+                    c -= 26;
+                } else {
+                    c += 13;
+                }
+            }
+            
             sb.append(c);
         }
 
