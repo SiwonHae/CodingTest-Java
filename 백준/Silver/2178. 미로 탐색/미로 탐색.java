@@ -5,7 +5,7 @@ public class Main {
     static int[] dy = {-1, 1, 0, 0};
     static int[] dx = {0, 0, -1, 1};
     static int[][] board;
-    static boolean[][] visited;
+    static int[][] visited;
     static int N, M;
 
     public static void main(String[] args) throws IOException {
@@ -17,12 +17,13 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
 
         board = new int[N][M];
-        visited = new boolean[N][M];
+        visited = new int[N][M];
 
         for (int i = 0; i < N; i++) {
-            String input = br.readLine();
+            String s = br.readLine();
             for (int j = 0; j < M; j++) {
-                board[i][j] = input.charAt(j) - '0';
+                char c = s.charAt(j);
+                board[i][j] = c - '0';
             }
         }
 
@@ -33,27 +34,45 @@ public class Main {
     }
 
     public static void bfs(int startY, int startX) {
-        Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[] {startY, startX});
-        visited[startY][startX] = true;
+
+        Queue<Point> queue = new LinkedList<>();
+
+        queue.add(new Point(startY, startX));
+        visited[startY][startX] = 1;
 
         while (!queue.isEmpty()) {
-            int[] current = queue.poll();
-            int y = current[0];
-            int x = current[1];
+            Point p = queue.poll();
+            int y = p.y;
+            int x = p.x;
 
             for (int i = 0; i < 4; i++) {
                 int ny = y + dy[i];
                 int nx = x + dx[i];
 
-                if (ny >= 0 && ny < N && nx >= 0 && nx < M) {
-                    if (!visited[ny][nx] && board[ny][nx] == 1) {
-                        board[ny][nx] = board[y][x] + 1;
-                        visited[ny][nx] = true;
-                        queue.add(new int[] {ny, nx});
-                    }
+                if (ny < 0 || ny >= N || nx < 0 || nx >= M) {
+                    continue;
                 }
+
+                if (visited[ny][nx] == 1 || board[ny][nx] == 0) {
+                    continue;
+                }
+
+                board[ny][nx] = board[y][x] + 1;
+                visited[ny][nx] = 1;
+                queue.add(new Point(ny, nx));
+
             }
         }
+
+    }
+}
+
+class Point {
+    int y;
+    int x;
+
+    public Point(int y, int x) {
+        this.y = y;
+        this.x = x;
     }
 }
