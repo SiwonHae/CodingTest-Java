@@ -4,7 +4,7 @@ import java.util.*;
 public class Main {
 
     static int N, M, V;
-    static int[][] board;
+    static List<List<Integer>> board;
     static boolean[] visited;
     static List<Integer> dfsList = new ArrayList<>();
     static List<Integer> bfsList = new ArrayList<>();
@@ -18,15 +18,22 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
         V = Integer.parseInt(st.nextToken());
 
-        board = new int[N + 1][N + 1]; // adj matrix
+        board = new ArrayList<>(); // adjacency list
+        for (int i = 0; i <= N; i++) {
+            board.add(new ArrayList<>());
+        }
 
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
 
-            board[a][b] = 1;
-            board[b][a] = 1;
+            board.get(a).add(b);
+            board.get(b).add(a);
+        }
+
+        for (int i = 1; i <= N; i++) {
+            Collections.sort(board.get(i));
         }
 
         visited = new boolean[N + 1];
@@ -54,8 +61,8 @@ public class Main {
         visited[v] = true;
         dfsList.add(v);
 
-        for (int i = 1; i <= N; i++) {
-            if (board[v][i] == 1 && !visited[i]) {
+        for (int i : board.get(v)) {
+            if (!visited[i]) {
                 dfs(i);
             }
         }
@@ -71,8 +78,8 @@ public class Main {
             int current = queue.poll();
             bfsList.add(current);
 
-            for (int i = 1; i <= N; i++) {
-                if (board[current][i] == 1 && !visited[i]) {
+            for (int i : board.get(current)) {
+                if (!visited[i]) {
                     queue.add(i);
                     visited[i] = true;
                 }
