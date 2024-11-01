@@ -8,13 +8,13 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
 
-        int result = 0;
         for (int i = 1; i <= N; i++) {
-            String[] num = String.valueOf(i).split("");
+            int num = i;
+            int sum = num;
 
-            int sum = i;
-            for (int j = 0; j < num.length; j++) {
-                sum += Integer.parseInt(num[j]);
+            while (num > 0) {
+                sum += num % 10;
+                num /= 10;
             }
 
             if (sum == N) {
