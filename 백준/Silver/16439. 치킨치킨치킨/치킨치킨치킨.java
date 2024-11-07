@@ -34,19 +34,19 @@ public class Main {
 
     public static void dfs(int start, int depth) {
         if (depth == 3) {
-            int sum = 0;
+            int sum = 0; // 각 회원의 가장 높은 선호도 합 == 만족도의 합
 
             for (int i = 0; i < N; i++) {
                 int like = 0;
                 for (int j = 0; j < M; j++) {
                     if (visited[j]) {
-                        like = Math.max(like, board[i][j]);
+                        like = Math.max(like, board[i][j]); // i번째 회원의 가장 높은 선호도
                     }
                 }
                 sum += like;
             }
 
-            result = Math.max(result, sum);
+            result = Math.max(result, sum); // 만족도의 합 갱신
             return;
         }
 
