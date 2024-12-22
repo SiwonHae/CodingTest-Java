@@ -1,37 +1,38 @@
-import java.util.Arrays;
+import java.util.*;
 
 class Solution {
     public int solution(int n, int[] lost, int[] reserve) {
-        int answer = 0;
-
+        int answer = n - lost.length;
+        
         Arrays.sort(lost);
         Arrays.sort(reserve);
+        
+        List<Integer> reserveList = new ArrayList<>();
+        for (int i : reserve) {
+            reserveList.add(i);
+        }
 
-        answer = n - lost.length;
-
-        // 여벌 체육복 가져왔지만 자기걸 도둑맞은 경우
-        for (int i = 0; i < lost.length; i++) {
-            for (int j = 0; j < reserve.length; j++) {
-                if (lost[i] == reserve[j]) {
+        List<Integer> lostList = new ArrayList<>();
+        for (int i : lost) {
+            if (reserveList.contains(i)) {
+                reserveList.remove((Integer) i);
+                answer++;
+            } else {
+                lostList.add(i);
+            }
+        }
+       
+        for (int lostNum : lostList) {
+            for (int j = 0; j < reserveList.size(); j++) {
+                int reserveNum = reserveList.get(j);
+                if (reserveNum - 1 == lostNum || reserveNum + 1 == lostNum) {
                     answer++;
-                    lost[i] = -100;
-                    reserve[j] = -200;
+                    reserveList.remove(j);
                     break;
                 }
             }
         }
-
-        // 체육복 빌려주는 경우
-        for (int i = 0; i < lost.length; i++) {
-            for (int j = 0; j < reserve.length; j++) {
-                if (reserve[j] + 1 == lost[i] || reserve[j] - 1 == lost[i]) {
-                    answer++;
-                    reserve[j] = -200;
-                    break;
-                }
-            }
-        }
-
+        
         return answer;
     }
 }
