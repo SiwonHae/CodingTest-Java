@@ -9,18 +9,17 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
         int M = Integer.parseInt(br.readLine());
 
-        int[] a = new int[N];
-
         StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int[] arr = new int[N];
         for (int i = 0; i < N; i++) {
-            a[i] = Integer.parseInt(st.nextToken());
+            arr[i] = Integer.parseInt(st.nextToken());
         }
 
         int result = 0;
-
-        for (int i = 0; i < N - 1; i++) {
+        for (int i = 0; i < N; i++) {
             for (int j = i + 1; j < N; j++) {
-                int sum = a[i] + a[j];
+                int sum = arr[i] + arr[j];
 
                 if (sum == M) {
                     result++;
@@ -28,7 +27,7 @@ public class Main {
             }
         }
 
-        bw.write(String.valueOf(result));
+        bw.write(result + "");
         bw.flush();
     }
 }
