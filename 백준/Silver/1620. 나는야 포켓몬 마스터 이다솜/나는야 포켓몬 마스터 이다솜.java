@@ -10,22 +10,22 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
-        Map<String, Integer> m1 = new HashMap<>();
-        Map<Integer, String> m2 = new HashMap<>();
+        Map<String, Integer> nameToIdx = new HashMap<>();
+        Map<Integer, String> IdxToName = new HashMap<>();
 
         for (int i = 0; i < N; i++) {
             String name = br.readLine();
-            m1.put(name, i + 1);
-            m2.put(i + 1, name);
+            nameToIdx.put(name, i + 1);
+            IdxToName.put(i + 1, name);
         }
 
         for (int i = 0; i < M; i++) {
-            String cmd = br.readLine();
+            String problem = br.readLine();
 
-            if (Character.isLetter(cmd.charAt(0))) {
-                bw.write(m1.get(cmd) + "\n");
+            if (Character.isDigit(problem.charAt(0))) {
+                bw.write(IdxToName.get(Integer.parseInt(problem)) + "\n");
             } else {
-                bw.write(m2.get(Integer.parseInt(cmd)) + "\n");
+                bw.write(nameToIdx.get(problem) + "\n");
             }
         }
 
