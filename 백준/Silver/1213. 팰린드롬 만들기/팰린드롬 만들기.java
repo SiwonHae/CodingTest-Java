@@ -6,48 +6,54 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        String s = br.readLine();
+        String name = br.readLine();
 
-        int[] a = new int[26];
-        int oddCnt = 0;
-        char oddChar = 0;
+        // 홀수개의 문자가 2개 이상이면 만들 수 없다.
 
-        for (int i = 0; i < s.length(); i++) {
-            a[s.charAt(i) - 'A']++;
+        int[] arr = new int[26];
+        for (int i = 0; i < name.length(); i++) {
+            arr[name.charAt(i) - 'A']++;
         }
 
+        int oddCnt = 0;
+        char oddChar = 0;
         for (int i = 0; i < 26; i++) {
-            if (a[i] % 2 != 0) {
+            int cnt = arr[i];
+
+            if (cnt % 2 != 0) {
                 oddCnt++;
                 oddChar = (char) (i + 'A');
             }
-
-            if (oddCnt >= 2) {
-                bw.write("I'm Sorry Hansoo");
-                bw.flush();
-                return;
-            }
         }
 
-        String result = "";
+        if (oddCnt >= 2) {
+            bw.write("I'm Sorry Hansoo");
+            bw.flush();
+            return;
+        }
 
         StringBuilder front = new StringBuilder();
-
         for (int i = 0; i < 26; i++) {
-            if (a[i] != 0) {
-                for (int j = 0; j < a[i] / 2; j++) {
-                    front.append((char) (i + 'A'));
-                }
+            int cnt = arr[i];
+
+            for (int j = 0; j < cnt / 2; j++) {
+                char c = (char) (i + 'A');
+                front.append(c);
             }
         }
 
-        if (oddCnt == 0) {
-            result = front.toString() + front.reverse().toString();
+        StringBuilder result = new StringBuilder();
+        result.append(front);
+
+        String back = front.reverse().toString();
+
+        if (oddChar != 0) {
+            result.append(oddChar).append(back);
         } else {
-            result = front.toString() + oddChar + front.reverse().toString();
+            result.append(back);
         }
 
-        bw.write(result);
+        bw.write(result.toString());
         bw.flush();
     }
 }
