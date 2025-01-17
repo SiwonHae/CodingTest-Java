@@ -2,13 +2,11 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
-    static int M, N, K;
+    static int[] dy = {1, -1, 0, 0};
+    static int[] dx = {0, 0, -1, 1};
     static int[][] board;
     static boolean[][] visited;
-    static int[] dy = {-1, 1, 0, 0};
-    static int[] dx = {0, 0, -1, 1};
-    static int cnt = 0;
+    static int M, N, K, result;
     static int area = 1;
 
     public static void main(String[] args) throws IOException {
@@ -28,11 +26,11 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             int lx = Integer.parseInt(st.nextToken());
             int ly = Integer.parseInt(st.nextToken());
-            int rx = Integer.parseInt(st.nextToken()) - 1;
-            int ry = Integer.parseInt(st.nextToken()) - 1;
+            int rx = Integer.parseInt(st.nextToken());
+            int ry = Integer.parseInt(st.nextToken());
 
-            for (int j = ry; j >= ly; j--) {
-                for (int k = rx; k >= lx; k--) {
+            for (int j = ly; j < ry; j++) {
+                for (int k = lx; k < rx; k++) {
                     board[j][k] = 1;
                 }
             }
@@ -40,22 +38,20 @@ public class Main {
 
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < N; j++) {
-                if (board[i][j] != 1 && !visited[i][j]) {
+                if (board[i][j] == 0 && !visited[i][j]) {
                     dfs(i, j);
+                    result++;
                     areas.add(area);
-                    cnt++;
                     area = 1;
                 }
             }
         }
 
-        bw.write(cnt + "\n");
-
+        bw.write(result + "\n");
         Collections.sort(areas);
-        for (int i = 0; i < areas.size(); i++) {
-            bw.write(areas.get(i) + " ");
+        for (int i : areas) {
+            bw.write(i + " ");
         }
-
 
         bw.flush();
     }
@@ -67,7 +63,7 @@ public class Main {
 
         visited[y][x] = true;
 
-        for (int i = 0; i < 4 ; i++) {
+        for (int i = 0; i < 4; i++) {
             int ny = y + dy[i];
             int nx = x + dx[i];
 
@@ -79,11 +75,10 @@ public class Main {
                 continue;
             }
 
-            if (board[ny][nx] != 1) {
+            if (board[ny][nx] == 0) {
                 dfs(ny, nx);
                 area++;
             }
         }
-
     }
 }
