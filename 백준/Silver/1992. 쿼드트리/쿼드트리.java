@@ -11,6 +11,7 @@ public class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         N = Integer.parseInt(br.readLine());
+
         board = new int[N][N];
 
         for (int i = 0; i < N; i++) {
@@ -26,16 +27,28 @@ public class Main {
         bw.flush();
     }
 
-    public static boolean isCompress(int y, int x, int size) {
-        if (size == 1) {
-            return true;
+    public static void quadTree(int y, int x, int size) {
+        if (isCompress(y, x, size)) {
+            sb.append(board[y][x]);
+            return;
         }
 
-        int num = board[y][x];
+        int half = size / 2;
+
+        sb.append("(");
+        quadTree(y, x, half);
+        quadTree(y, x + half, half);
+        quadTree(y + half, x, half);
+        quadTree(y + half, x + half, half);
+        sb.append(")");
+    }
+
+    public static boolean isCompress(int y, int x, int size) {
+        int video = board[y][x];
 
         for (int i = y; i < y + size; i++) {
             for (int j = x; j < x + size; j++) {
-                if (board[i][j] != num) {
+                if (video != board[i][j]) {
                     return false;
                 }
             }
@@ -43,18 +56,4 @@ public class Main {
 
         return true;
     }
-
-    public static void quadTree(int y, int x, int size) {
-        if (isCompress(y, x, size)) {
-            sb.append(board[y][x]);
-        } else {
-            sb.append("(");
-            quadTree(y, x, size / 2); // 왼쪽 위
-            quadTree(y, x + size / 2, size / 2); // 오른쪽 위
-            quadTree(y + size / 2, x, size / 2); // 왼쪽 아래
-            quadTree(y + size / 2, x + size / 2, size / 2); // 오른쪽 아래
-            sb.append(")");
-        }
-    }
-
 }
