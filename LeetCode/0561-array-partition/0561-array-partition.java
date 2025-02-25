@@ -7,8 +7,7 @@ class Solution {
 
         int result = 0;
         for (int i = 0; i < nums.length; i += 2) {
-            int pair = Math.min(nums[i], nums[i + 1]);
-            result += pair;
+            result += nums[i];
         }
 
         return result;
