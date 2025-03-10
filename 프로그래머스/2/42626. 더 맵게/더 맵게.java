@@ -5,25 +5,24 @@ class Solution {
         int answer = 0;
         
         PriorityQueue<Integer> pq = new PriorityQueue<>();
-        
         for (int i : scoville) {
             pq.offer(i);
         }
         
-        while (pq.size() >= 2 && pq.peek() < K) {
-            int a = pq.poll();
-            int b = pq.poll();
-            
-            int mix = a + b * 2;
+        if (pq.peek() >= K) {
+            return answer;
+        }
+        
+        while (pq.size() >= 2) {
+            int mix = pq.poll() + (pq.poll() * 2);
             pq.offer(mix);
-            
             answer++;
+            
+            if (pq.peek() >= K) {
+                return answer;
+            }
         }
         
-        if (pq.peek() < K) {
-            return -1;
-        }
-        
-        return answer;
+        return -1;
     }
 }
