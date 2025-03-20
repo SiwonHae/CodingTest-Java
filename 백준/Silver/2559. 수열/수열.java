@@ -11,26 +11,20 @@ public class Main {
         int K = Integer.parseInt(st.nextToken());
         
         st = new StringTokenizer(br.readLine());
-        int[] temp = new int[N];
-        for (int i = 0; i < N; i++) {
-            temp[i] = Integer.parseInt(st.nextToken());
-        }
         
         int[] pSum = new int[N + 1];
+        
         for (int i = 1; i <= N; i++) {
-            pSum[i] = pSum[i - 1] + temp[i - 1];
+            int temp = Integer.parseInt(st.nextToken());
+            pSum[i] = pSum[i - 1] + temp;
         }
         
-        List<Integer> list = new ArrayList<>();
-        int left = 0;
-        int right = K;
-        while (right <= N) {
-            list.add(pSum[right] - pSum[left]);
-            right++;
-            left++;
+        int result = Integer.MIN_VALUE;
+        for (int i = K; i <= N; i++) {
+            result = Math.max(result, pSum[i] - pSum[i - K]);
         }
         
-        bw.write(String.valueOf(Collections.max(list)));
+        bw.write(String.valueOf(result));
         bw.flush();
     }
 }
