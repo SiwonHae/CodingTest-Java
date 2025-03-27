@@ -7,31 +7,25 @@ public class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         int T = Integer.parseInt(br.readLine());
-        for (int i = 0; i < T; i++) {
-            Stack<Character> stack = new Stack<>();
-            boolean isVPS = true;
-
+        
+        for (int t = 0; t < T; t++) {
             String input = br.readLine();
-            for (int j = 0; j < input.length(); j++) {
-                char c = input.charAt(j);
-
-                if (c == '(') {
-                    stack.push(c);
-                } else if (c == ')') {
-                    if (!stack.isEmpty() && stack.peek() == '(') {
+            
+            Deque<Character> stack = new ArrayDeque<>();
+            
+            for (char c : input.toCharArray()) {
+                if (!stack.isEmpty()) {
+                    if (c == ')' && stack.peek() == '(') {
                         stack.pop();
                     } else {
-                        isVPS = false;
-                        break;
+                        stack.push(c);
                     }
+                } else {
+                    stack.push(c);
                 }
             }
-
-            if (!stack.isEmpty()) {
-                isVPS = false;
-            }
-
-            if (isVPS) {
+            
+            if (stack.isEmpty()) {
                 bw.write("YES\n");
             } else {
                 bw.write("NO\n");
