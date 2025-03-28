@@ -8,37 +8,30 @@ public class Main {
 
         String input = "";
         while (!(input = br.readLine()).equals(".")) {
-            Stack<Character> stack = new Stack<>();
+            Deque<Character> stack = new ArrayDeque<>();
+            boolean flag = true;
 
-            boolean isValid = true;
-
-            for (int i = 0; i < input.length(); i++) {
-                char c = input.charAt(i);
-
+            for (char c : input.toCharArray()) {
                 if (c == '(' || c == '[') {
                     stack.push(c);
                 } else if (c == ')' || c == ']') {
-                    if (!stack.isEmpty()) {
-                        if (stack.peek() == '(' && c == ')') {
-                            stack.pop();
-                        } else if (stack.peek() == '[' && c == ']') {
-                            stack.pop();
-                        } else {
-                            isValid = false;
-                            break;
-                        }
+                    if (stack.isEmpty()) {
+                        flag = false;
+                        break;
+                    }
+
+                    if (c == ')' && stack.peek() == '(') {
+                        stack.pop();
+                    } else if (c == ']' && stack.peek() == '[') {
+                        stack.pop();
                     } else {
-                        isValid = false;
+                        flag = false;
                         break;
                     }
                 }
             }
 
-            if (!stack.isEmpty()) {
-                isValid = false;
-            }
-
-            if (isValid) {
+            if (stack.isEmpty() && flag) {
                 bw.write("yes\n");
             } else {
                 bw.write("no\n");
