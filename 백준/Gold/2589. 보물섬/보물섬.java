@@ -2,13 +2,12 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
     static int N, M;
-    static int[][] board;
+    static char[][] board;
+    static int[][] visited;
     static int[] dy = {-1, 1, 0, 0};
     static int[] dx = {0, 0, -1, 1};
-    static int[][] visited;
-    static int result = 0;
+    static int result;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,21 +17,18 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        board = new int[N][M];
+        board = new char[N][M];
 
         for (int i = 0; i < N; i++) {
             String input = br.readLine();
             for (int j = 0; j < M; j++) {
-                char c = input.charAt(j);
-                if (c == 'L') {
-                    board[i][j] = 1;
-                }
+                board[i][j] = input.charAt(j);
             }
         }
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-                if (board[i][j] == 1) {
+                if (board[i][j] == 'L') {
                     bfs(i, j);
                 }
             }
@@ -43,30 +39,39 @@ public class Main {
     }
 
     public static void bfs(int startY, int startX) {
-
         visited = new int[N][M];
 
-        Queue<int []> queue = new LinkedList<>();
+        Queue<Point> queue = new LinkedList<>();
+        queue.offer(new Point(startY, startX));
         visited[startY][startX] = 1;
-        queue.add(new int[] {startY, startX});
 
         while (!queue.isEmpty()) {
-            int[] current = queue.poll();
-            int y = current[0];
-            int x = current[1];
+            Point current = queue.poll();
+            int y = current.y;
+            int x = current.x;
 
             for (int i = 0; i < 4; i++) {
                 int ny = y + dy[i];
                 int nx = x + dx[i];
 
-                if (ny >= 0 && ny < N && nx >= 0 && nx < M) {
-                    if (visited[ny][nx] == 0 && board[ny][nx] != 0) {
-                        visited[ny][nx] = visited[y][x] + 1;
-                        queue.add(new int[] {ny, nx});
-                        result = Math.max(result, visited[ny][nx]);
-                    }
+                if (ny < 0 || ny >= N || nx < 0 || nx >= M) {
+                    continue;
+                }
+
+                if (visited[ny][nx] == 0 && board[ny][nx] == 'L') {
+                    visited[ny][nx] = visited[y][x] + 1;
+                    queue.offer(new Point(ny, nx));
+                    result = Math.max(result, visited[ny][nx]);
                 }
             }
+        }
+    }
+
+    static class Point {
+        int y, x;
+        Point (int y, int x) {
+            this.y = y;
+            this.x = x;
         }
     }
 }
