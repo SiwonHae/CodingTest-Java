@@ -2,15 +2,13 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
     static int R, C;
+    static char[][] board;
+    static boolean[][] visited;
     static int[] dy = {-1, 1, 0, 0};
     static int[] dx = {0, 0, -1, 1};
-    static List<Character> list = new ArrayList<>();
-    static boolean[][] visited;
-    static char[][] board;
-    static int result = 0;
-
+    static Set<Character> set = new HashSet<>();
+    static int result;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -29,16 +27,17 @@ public class Main {
             }
         }
 
-        dfs(0, 0, 1);
+        backtrack(0, 0, 1);
 
         bw.write(String.valueOf(result));
         bw.flush();
     }
 
-    public static void dfs(int y, int x, int cnt) {
-        result = Math.max(result, cnt);
+    public static void backtrack(int y, int x, int depth) {
+        result = Math.max(result, depth);
 
-        list.add(board[y][x]);
+        visited[y][x] = true;
+        set.add(board[y][x]);
 
         for (int i = 0; i < 4; i++) {
             int ny = y + dy[i];
@@ -48,11 +47,11 @@ public class Main {
                 continue;
             }
 
-            if (!visited[ny][nx] && !list.contains(board[ny][nx])) {
+            if (!visited[ny][nx] && !set.contains(board[ny][nx])) {
                 visited[ny][nx] = true;
-                dfs(ny, nx, cnt + 1);
-                visited[ny][nx] = false; // 원복
-                list.remove(list.size() - 1); // 원복
+                backtrack(ny, nx, depth + 1);
+                visited[ny][nx] = false;
+                set.remove(board[ny][nx]);
             }
         }
     }
