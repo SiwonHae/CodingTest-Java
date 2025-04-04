@@ -4,7 +4,6 @@ import java.util.*;
 public class Main {
     static int R, C;
     static char[][] board;
-    static boolean[][] visited;
     static int[] dy = {-1, 1, 0, 0};
     static int[] dx = {0, 0, -1, 1};
     static Set<Character> set = new HashSet<>();
@@ -18,7 +17,6 @@ public class Main {
         C = Integer.parseInt(st.nextToken());
 
         board = new char[R][C];
-        visited = new boolean[R][C];
 
         for (int i = 0; i < R; i++) {
             String input = br.readLine();
@@ -36,7 +34,6 @@ public class Main {
     public static void backtrack(int y, int x, int depth) {
         result = Math.max(result, depth);
 
-        visited[y][x] = true;
         set.add(board[y][x]);
 
         for (int i = 0; i < 4; i++) {
@@ -47,10 +44,8 @@ public class Main {
                 continue;
             }
 
-            if (!visited[ny][nx] && !set.contains(board[ny][nx])) {
-                visited[ny][nx] = true;
+            if (!set.contains(board[ny][nx])) {
                 backtrack(ny, nx, depth + 1);
-                visited[ny][nx] = false;
                 set.remove(board[ny][nx]);
             }
         }
