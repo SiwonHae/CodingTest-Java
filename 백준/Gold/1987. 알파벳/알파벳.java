@@ -6,7 +6,6 @@ public class Main {
     static char[][] board;
     static int[] dy = {-1, 1, 0, 0};
     static int[] dx = {0, 0, -1, 1};
-    static Set<Character> set = new HashSet<>();
     static int result;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -25,16 +24,14 @@ public class Main {
             }
         }
 
-        backtrack(0, 0, 1);
+        dfs(0, 0, 1 << (board[0][0] - 'A'), 1);
 
         bw.write(String.valueOf(result));
         bw.flush();
     }
 
-    public static void backtrack(int y, int x, int depth) {
-        result = Math.max(result, depth);
-
-        set.add(board[y][x]);
+    public static void dfs(int y, int x, int num, int cnt) {
+        result = Math.max(result, cnt);
 
         for (int i = 0; i < 4; i++) {
             int ny = y + dy[i];
@@ -44,9 +41,10 @@ public class Main {
                 continue;
             }
 
-            if (!set.contains(board[ny][nx])) {
-                backtrack(ny, nx, depth + 1);
-                set.remove(board[ny][nx]);
+            int next = 1 << (board[ny][nx] - 'A');
+
+            if ((num & next) == 0) {
+                dfs(ny, nx, num | next, cnt + 1);
             }
         }
     }
