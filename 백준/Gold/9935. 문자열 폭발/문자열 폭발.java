@@ -2,42 +2,35 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        String input = br.readLine();
+        String s = br.readLine();
         String bomb = br.readLine();
 
-        Stack<Character> stack = new Stack<>();
+        StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < input.length(); i++) {
-            int cnt = 0;
+        for (int i = 0; i < s.length(); i++) {
+            sb.append(s.charAt(i));
 
-            stack.push(input.charAt(i));
+            if (sb.length() >= bomb.length()) {
+                boolean flag = true;
 
-            if (stack.size() >= bomb.length()) {
                 for (int j = 0; j < bomb.length(); j++) {
-                    if (stack.get(stack.size() - bomb.length() + j) == bomb.charAt(j)) {
-                        cnt++;
+                    if (sb.charAt(sb.length() - bomb.length() + j) != bomb.charAt(j)) {
+                        flag = false;
+                        break;
                     }
                 }
 
-                if (cnt == bomb.length()) {
-                    for (int j = 0; j < bomb.length(); j++) {
-                        stack.pop();
-                    }
+                if (flag) {
+                    sb.delete(sb.length() - bomb.length(), sb.length());
                 }
             }
         }
 
-        StringBuilder sb = new StringBuilder();
-        for (Character c : stack) {
-            sb.append(c);
-        }
-
-        if (sb.toString().equals("")) {
+        if (sb.length() == 0) {
             bw.write("FRULA");
         } else {
             bw.write(sb.toString());
