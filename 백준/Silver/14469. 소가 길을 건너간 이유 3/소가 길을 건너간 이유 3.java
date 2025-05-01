@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -10,38 +9,37 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
 
         List<Cow> list = new ArrayList<>();
-
         for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             int arrive = Integer.parseInt(st.nextToken());
-            int check = Integer.parseInt(st.nextToken());
-            list.add(new Cow(arrive, check));
+            int verify = Integer.parseInt(st.nextToken());
+            list.add(new Cow(arrive, verify));
         }
 
         Collections.sort(list, (o1, o2) -> {
             return o1.arrive - o2.arrive;
         });
 
-        int result = 0;
-        for (int i = 0; i < N; i++) {
-            Cow c = list.get(i);
-            if (c.arrive > result) {
-                result = c.arrive;
+        int current = 0;
+        for (Cow cow : list) {
+            if (current < cow.arrive) {
+                current = cow.arrive + cow.verify;
+            } else {
+                current += cow.verify;
             }
-            result += c.check;
         }
 
-        bw.write(String.valueOf(result));
+        bw.write(String.valueOf(current));
         bw.flush();
     }
-}
 
-class Cow {
-    int arrive;
-    int check;
+    static class Cow {
+        int arrive;
+        int verify;
 
-    public Cow(int arrive, int check) {
-        this.arrive = arrive;
-        this.check = check;
+        public Cow(int arrive, int verify) {
+            this.arrive = arrive;
+            this.verify = verify;
+        }
     }
 }
