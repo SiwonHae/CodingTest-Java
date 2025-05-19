@@ -7,24 +7,25 @@ public class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         int n = Integer.parseInt(br.readLine());
-        int[] score = new int[n + 1];
+        int[] stairs = new int[n + 1];
+        int[] dp = new int[n + 1];
 
         for (int i = 1; i <= n; i++) {
-            score[i] = Integer.parseInt(br.readLine());
+            stairs[i] = Integer.parseInt(br.readLine());
         }
 
-        if (n == 1) {
-            bw.write(String.valueOf(score[1]));
-            bw.flush();
-            return;
+        dp[1] = stairs[1];
+
+        if (n >= 2) {
+            dp[2] = stairs[1] + stairs[2];
         }
 
-        int[] dp = new int[n + 1];
-        dp[1] = score[1];
-        dp[2] = score[1] + score[2];
+        if (n >= 3) {
+            dp[3] = Math.max(stairs[1] + stairs[3], stairs[2] + stairs[3]);
+        }
 
-        for (int i = 3; i <= n; i++) {
-            dp[i] = Math.max(dp[i - 2], dp[i - 3] + score[i - 1]) + score[i];
+        for (int i = 4; i <= n; i++) {
+            dp[i] = Math.max(dp[i - 3] + stairs[i - 1] + stairs[i], dp[i - 2] + stairs[i]);
         }
 
         bw.write(String.valueOf(dp[n]));
