@@ -1,68 +1,60 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.*;
 
 class Solution {
     public int[] solution(int[] answers) {
-
+        List<Integer> list = new ArrayList<>();
+        
         int[] one = {1, 2, 3, 4, 5};
         int[] two = {2, 1, 2, 3, 2, 4, 2, 5};
         int[] three = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
-
-        int sumOne = 0;
-        int sumTwo = 0;
-        int sumThree = 0;
-        int indexOne = 0;
-        int indexTwo = 0;
-        int indexThree = 0;
-
+        
+        int oneCnt = 0;
+        int twoCnt = 0;
+        int threeCnt = 0;
+        
         for (int i = 0; i < answers.length; i++) {
-            if (i % one.length == 0) {
-                indexOne = 0;
+            int oneIdx = i % one.length;
+            int twoIdx = i % two.length;
+            int threeIdx = i % three.length;
+            
+            int answer = answers[i];
+            
+            if (answer == one[oneIdx]) {
+                oneCnt++;
+            } 
+            if (answer == two[twoIdx]) {
+                twoCnt++;
             }
-            if (i % two.length == 0) {
-                indexTwo = 0;
-            }
-            if (i % three.length == 0) {
-                indexThree = 0;
-            }
-
-            if (answers[i] == one[indexOne]) {
-                sumOne++;
-            }
-            if (answers[i] == two[indexTwo]) {
-                sumTwo++;
-            }
-            if (answers[i] == three[indexThree]) {
-                sumThree++;
-            }
-
-            indexOne++;
-            indexTwo++;
-            indexThree++;
-        }
-
-        List<Integer> result = new ArrayList<>();
-        result.add(sumOne);
-        result.add(sumTwo);
-        result.add(sumThree);
-        int max = Collections.max(result);
-        int cnt = 0;
-        for (int i = 0; i < result.size(); i++) {
-            if (result.get(i) == max) {
-                cnt++;
+            if (answer == three[threeIdx]) {
+                threeCnt++;
             }
         }
-
-        int[] answer = new int[cnt];
-        int index = 0;
-        for (int i = 0; i < result.size(); i++) {
-            if (result.get(i) == max) {
-                answer[index] = i + 1;
-                index++;
+        
+        int max = oneCnt;
+        list.add(1);
+        
+        if (max <= twoCnt) {
+            if (max == twoCnt) {
+                list.add(2);
+            } else {
+                max = twoCnt;
+                list.remove(0);
+                list.add(2);
+            }
+        } 
+        if (max <= threeCnt) {
+            if (max == threeCnt) {
+                list.add(3);
+            } else {
+                max = threeCnt;
+                list.clear();
+                list.add(3);
             }
         }
-
-        return answer;
+        
+        return list.stream()
+            .mapToInt(Integer::intValue)
+            .toArray();
     }
 }
