@@ -3,35 +3,28 @@ import java.util.*;
 class Solution {
     public int solution(int[][] board, int[] moves) {
         int answer = 0;
-
-        List<Integer> bucket = new ArrayList<>();
-
+        
+        Deque<Integer> basket = new ArrayDeque<>();
+        
         for (int i = 0; i < moves.length; i++) {
-            int pos = moves[i] - 1; // 크레인 뽑을 자리
-
-            for (int j = 0; j < board[0].length; j++) {
-                if (board[j][pos] != 0) {
-                    int doll = board[j][pos]; // 뽑기할 인형 번호
-                    board[j][pos] = 0;
-
-                    if (bucket.size() == 0) {
-                        bucket.add(doll);
+            int move = moves[i] - 1;
+            
+            for (int j = 0; j < board.length; j++) {
+                if (board[j][move] != 0) {
+                    // 바구니 최상단과 같은 인형이면 터트린다.
+                    if (!basket.isEmpty() && basket.peek() == board[j][move]) {
+                        basket.pop();
+                        answer += 2;
                     } else {
-                        if (bucket.get(bucket.size() - 1) == doll) {
-                            bucket.remove(bucket.size() - 1);
-                            answer++;
-                        } else {
-                            bucket.add(doll);
-                        }
+                        basket.push(board[j][move]);
                     }
-
+                    
+                    board[j][move] = 0;
                     break;
                 }
             }
         }
-
-        answer = answer * 2;
-
+        
         return answer;
     }
 }
