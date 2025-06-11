@@ -1,46 +1,40 @@
 import java.util.*;
+import java.util.stream.*;
 
 class Solution {
     public int solution(String dirs) {
-        int answer = 0;
-        
         Set<String> set = new HashSet<>();
         int x = 0;
         int y = 0;
-        
-        for (int i = 0; i < dirs.length(); i++) {
-            char c = dirs.charAt(i);
-            
+
+        for (char dir : dirs.toCharArray()) {
             int nx = x;
             int ny = y;
-            
-            String s = "";
-            
-            if (c == 'U') {
+
+            if (dir == 'U') {
                 ny++;
-                s = x + " " + y + " " + nx + " " + ny;
-            } else if (c == 'D') {
+            } else if (dir == 'D') {
                 ny--;
-                s = nx + " " + ny + " " + x + " " + y;
-            } else if (c == 'R') {
-                nx++;
-                s = x + " " + y + " " + nx + " " + ny;
-            } else {
+            } else if (dir == 'L') {
                 nx--;
-                s = nx + " " + ny + " " + x + " " + y;
+            } else if (dir == 'R') {
+                nx++;
             }
-            
+
             if (nx < -5 || nx > 5 || ny < -5 || ny > 5) {
                 continue;
             }
-            
-            set.add(s);
-            
+
+            String path = x + " " + y + " " + nx + " " + ny;
+            String reversePath = nx + " " + ny + " " + x + " " + y;
+
+            set.add(path);
+            set.add(reversePath);
+
             x = nx;
             y = ny;
         }
-        
-        answer = set.size();
-        return answer;
+
+        return set.size() / 2;
     }
 }
