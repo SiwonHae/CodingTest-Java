@@ -1,7 +1,8 @@
 import java.util.*;
 
 class Solution {
-    public String solution(String[] participant, String[] completion) {        
+    public String solution(String[] participant, String[] completion) {
+        
         Map<String, Integer> map = new HashMap<>();
         
         for (String name : participant) {
@@ -9,17 +10,15 @@ class Solution {
         }
         
         for (String name : completion) {
-            if (map.get(name) == 1) {
-                map.remove(name);
-            } else {
-                map.put(name, map.get(name) - 1);
+            map.put(name, map.getOrDefault(name, 1) - 1);
+        }
+        
+        for (String name : participant) {
+            if (map.get(name) > 0) {
+                return name;
             }
         }
         
-        for (String key : map.keySet()) {
-            return key;
-        }
-        
-        return "";
+        return null;
     }
 }
