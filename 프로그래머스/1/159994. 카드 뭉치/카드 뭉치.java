@@ -1,32 +1,29 @@
+import java.util.*;
+import java.util.stream.*;
+
 class Solution {
     public String solution(String[] cards1, String[] cards2, String[] goal) {
-        String answer = "Yes";
-
-        int oneIndex = 0;
-        int twoIndex = 0;
-        String ans = "";
-        for (int i = 0; i < goal.length; i++) {
-            if (oneIndex == cards1.length) {
-                oneIndex = 0;
-            }
-            if (twoIndex == cards2.length) {
-                twoIndex = 0;
-            }
-            
-            if (goal[i].equals(cards1[oneIndex])) {
-                ans += cards1[oneIndex] + " ";
-                cards1[oneIndex] = "";
-                oneIndex++;
-            } else if (goal[i].equals(cards2[twoIndex])) {
-                ans += cards2[twoIndex] + " ";
-                cards2[twoIndex] = "";
-                twoIndex++;
+        Queue<String> queue1 = new ArrayDeque<>();
+        Queue<String> queue2 = new ArrayDeque<>();
+        
+        for (String word : cards1) {
+            queue1.offer(word);
+        }
+        
+        for (String word : cards2) {
+            queue2.offer(word);
+        }
+        
+        for (String target : goal) {
+            if (!queue1.isEmpty() && queue1.peek().equals(target)) {
+                queue1.poll();
+            } else if (!queue2.isEmpty() && queue2.peek().equals(target)) {
+                queue2.poll();
             } else {
-                answer = "No";
-                break;
+                return "No";
             }
         }
-
-        return answer;
+        
+        return "Yes";
     }
 }
