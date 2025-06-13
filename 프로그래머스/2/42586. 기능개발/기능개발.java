@@ -1,41 +1,39 @@
 import java.util.*;
+import java.util.stream.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        
-        // 작업까지 남은 일수를 저장하자.
-        Queue<Integer> queue = new LinkedList<>();
+        List<Integer> list = new ArrayList<>();        
+        Queue<Integer> queue = new ArrayDeque<>();
         
         for (int i = 0; i < progresses.length; i++) {
-            int day = 0;
-            int remainProgress = 100 - progresses[i];
-            if (remainProgress % speeds[i] != 0) {
-                day = remainProgress / speeds[i] + 1;
-            } else {
-                day = remainProgress / speeds[i];
-            }
-            queue.offer(day);
+            int progress = progresses[i];
+            int speed = speeds[i];
+            
+            int remain = 100 - progress;
+            
+            queue.offer(remain % speed == 0 ? remain / speed : remain / speed + 1);
         }
         
-        List<Integer> deployList = new ArrayList<>();
+        int current = queue.poll();
+        int cnt = 1;
         
         while (!queue.isEmpty()) {
-            int current = queue.poll();
-            int deploy = 1;
+            int next = queue.poll();
             
-            while (!queue.isEmpty() && queue.peek() <= current) {
-                queue.poll();
-                deploy++;
+            if (current < next) {
+                list.add(cnt);
+                current = next;
+                cnt = 1;
+            } else {
+                cnt++;
             }
-            
-            deployList.add(deploy);
         }
         
-        int[] answer = new int[deployList.size()];
-        for (int i = 0; i < answer.length; i++) {
-            answer[i] = deployList.get(i);
-        }
+        list.add(cnt);
         
-        return answer;
+        return list.stream()
+            .mapToInt(Integer::intValue)
+            .toArray();
     }
 }
