@@ -25,21 +25,20 @@ class Solution {
         // 장르 내에서 재생횟수 높은 순으로 정렬해서 2개까지 뽑기
         List<Integer> result = new ArrayList<>();
         
-        for (String genre : sortedGenres) {
+        sortedGenres.forEach(genre -> {
             List<Song> songs = songMap.get(genre);
-            
-            Collections.sort(songs, (o1, o2) -> {
+
+            songs.sort((o1, o2) -> {
                 if (o1.cnt == o2.cnt) {
                     return o1.id - o2.id;
                 }
-                
                 return o2.cnt - o1.cnt;
             });
-            
-            for (int i = 0; i < Math.min(2, songs.size()); i++) {
-                result.add(songs.get(i).id);
-            }
-        }
+
+            songs.stream()
+                .limit(2)
+                .forEach(song -> result.add(song.id));
+        });
         
         return result.stream().mapToInt(Integer::intValue).toArray();
     }
