@@ -10,26 +10,29 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
 
-        Queue<Integer> queue = new ArrayDeque<>();
-        List<Integer> list = new ArrayList<>();
-
+        List<Integer> list = new LinkedList<>();
         for (int i = 1; i <= N; i++) {
-            queue.offer(i);
+            list.add(i);
         }
 
-        while (list.size() != N) {
-            for (int i = 0; i < K - 1; i++) {
-                queue.offer(queue.poll());
-            }
+        int cursor = 0;
+        List<Integer> result = new ArrayList<>();
 
-            list.add(queue.poll());
+        while (list.size() > 0) {
+            cursor = (cursor + K - 1) % list.size();
+
+            int removed = list.remove(cursor);
+            result.add(removed);
         }
 
         bw.write("<");
-        for (int i = 0; i < list.size() - 1; i++) {
-            bw.write(list.get(i) + ", ");
+        for (int i = 0; i < result.size(); i++) {
+            bw.write(String.valueOf(result.get(i)));
+            if (i < result.size() - 1) {
+                bw.write(", ");
+            }
         }
-        bw.write(list.get(list.size() - 1) + ">");
+        bw.write(">");
 
         bw.flush();
     }
