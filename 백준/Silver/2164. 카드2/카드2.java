@@ -5,20 +5,20 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n = Integer.parseInt(st.nextToken());
-        Queue<Integer> q = new LinkedList<>();
-        for (int i = 0; i < n; i++) {
-            q.add(i + 1);
+        int N = Integer.parseInt(br.readLine());
+
+        Deque<Integer> queue = new ArrayDeque<>();
+        for (int i = 1; i <= N; i++) {
+            queue.offer(i);
         }
 
-        while (q.size() != 1) {
-            q.poll();
-            q.add(q.poll());
+        while (queue.size() != 1) {
+            queue.poll();
+            queue.offer(queue.poll());
         }
 
-        bw.write(String.valueOf(q.peek()));
+        bw.write(String.valueOf(queue.peek()));
         bw.flush();
     }
 }
