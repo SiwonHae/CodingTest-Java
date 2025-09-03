@@ -3,41 +3,38 @@ import java.util.*;
 
 public class Main {
     static int N, M;
-    static int[] board;
-    static boolean[] visited;
+    static int[] arr;
     static StringBuilder sb = new StringBuilder();
-
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
+        
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-
-        board = new int[M];
-        visited = new boolean[N];
-
-        dfs(0);
-
+        
+        arr = new int[M];
+        
+        backtrack(0);
+        
         bw.write(sb.toString());
         bw.flush();
     }
-
-    public static void dfs(int depth) {
+    
+    public static void backtrack(int depth) {
         if (depth == M) {
-            for (int i : board) {
-                sb.append(i).append(" ");
+            for (int i = 0; i < M; i++) {
+                sb.append(arr[i]).append(" ");
             }
             sb.append("\n");
             return;
         }
-
-        for (int i = 0; i < N; i++) {
-            if(!visited[i]) {
-                board[depth] = i + 1;
-                dfs(depth + 1);
-            }
+        
+        for (int i = 1; i <= N; i++) {
+            arr[depth] = i;
+            backtrack(depth + 1);
         }
     }
+    
 }
