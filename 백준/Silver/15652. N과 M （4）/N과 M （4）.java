@@ -3,39 +3,39 @@ import java.util.*;
 
 public class Main {
     static int N, M;
-    static int[] board;
-    static boolean[] visited;
+    static int[] arr;
     static StringBuilder sb = new StringBuilder();
-
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
+        
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-
-        board = new int[M];
-        visited = new boolean[N];
-
-        dfs(0, 1);
-
+        
+        arr = new int[M];
+        
+        backtrack(0, 0);
+        
         bw.write(sb.toString());
         bw.flush();
     }
-
-    public static void dfs(int depth, int start) {
+    
+    public static void backtrack(int current, int depth) {
         if (depth == M) {
-            for (int i : board) {
-                sb.append(i).append(" ");
+            for (int i = 0; i < M; i++) {
+                sb.append(arr[i]).append(" ");
             }
             sb.append("\n");
             return;
         }
-
-        for (int i = start; i <= N; i++) {
-            board[depth] = i;
-            dfs(depth + 1, i);
+        
+        for (int i = 1; i <= N; i++) {
+            if (current <= i) {
+                arr[depth] = i;
+                backtrack(i, depth + 1);
+            }
         }
     }
 }
