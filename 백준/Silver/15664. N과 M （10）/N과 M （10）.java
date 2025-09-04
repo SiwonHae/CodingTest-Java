@@ -3,53 +3,57 @@ import java.util.*;
 
 public class Main {
     static int N, M;
-    static List<Integer> list = new ArrayList<>();
-    static List<Integer> result = new ArrayList<>();
+    static int[] seq;
+    static int[] arr;
     static boolean[] visited;
     static StringBuilder sb = new StringBuilder();
-    static Set<String> resultSet = new LinkedHashSet<>();
-
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
+        
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-
+        
+        seq = new int[N];
+        arr = new int[M];
         visited = new boolean[N];
-
+        
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
-            list.add(Integer.parseInt(st.nextToken()));
+            seq[i] = Integer.parseInt(st.nextToken());
         }
-
-        Collections.sort(list);
-
-        dfs(0, 0);
-
-        for (String s : resultSet) {
-            bw.write(s + "\n");
-        }
+        
+        Arrays.sort(seq);
+        
+        backtrack(0, 0);
+        
+        bw.write(sb.toString());
         bw.flush();
     }
-
-    public static void dfs(int depth, int start) {
+    
+    public static void backtrack(int current, int depth) {
         if (depth == M) {
             for (int i = 0; i < M; i++) {
-                sb.append(result.get(i) + " ");
+                sb.append(arr[i]).append(" ");
             }
-            resultSet.add(sb.toString());
-            sb = new StringBuilder();
+            sb.append("\n");
             return;
         }
-
-        for (int i = start; i < N; i++) {
-            if (!visited[i]) {
+        
+        int tmp = 0;
+        
+        for (int i = 0; i < N; i++) {
+            if (tmp == seq[i]) {
+                continue;
+            }
+            
+            if (!visited[i] && current <= seq[i]) {
+                arr[depth] = seq[i];
                 visited[i] = true;
-                result.add(list.get(i));
-                dfs(depth + 1, i);
-                result.remove(result.size() - 1);
+                tmp = seq[i];
+                backtrack(seq[i], depth + 1);
                 visited[i] = false;
             }
         }
