@@ -5,26 +5,26 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
+        
         int N = Integer.parseInt(br.readLine());
-
-        List<Integer> list = new ArrayList<>();
-
+        
+        int[] P = new int[N];
+        
         StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
-            list.add(Integer.parseInt(st.nextToken()));
+            P[i] = Integer.parseInt(st.nextToken());
         }
-
-        Collections.sort(list);
-
-        int result = 0;
+        
+        // 돈 인출이 가장 빨리 끝나는 사람이 먼저 처리하자.
+        Arrays.sort(P);
+        
         int sum = 0;
-
+        int result = 0;
         for (int i = 0; i < N; i++) {
-            sum += list.get(i);
+            sum += P[i];
             result += sum;
         }
-
+        
         bw.write(String.valueOf(result));
         bw.flush();
     }
