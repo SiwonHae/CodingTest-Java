@@ -29,7 +29,8 @@ public class Main {
                 }
             }
             
-            bw.write(profit + "\n");
+            bw.write(String.valueOf(profit));
+            bw.write("\n");
         }
 
         bw.flush();
