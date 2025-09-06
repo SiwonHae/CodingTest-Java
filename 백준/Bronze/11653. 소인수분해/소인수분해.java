@@ -5,25 +5,22 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-//        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        int n = Integer.parseInt(br.readLine());
-
-        int idx = 2;
-
-        if (n == 1) {
-            return;
-        }
-
-        while (n != 1) {
-            if (n % idx == 0) {
-                n /= idx;
-                bw.write(idx + "\n");
-            } else {
-                idx++;
+        
+        int N = Integer.parseInt(br.readLine());
+        
+        for (int i = 2; i * i <= N; i++) {
+            while (N % i == 0) {
+                bw.write(String.valueOf(i));
+                bw.write("\n");
+                
+                N /= i;
             }
         }
-
+        
+        if (N != 1) {
+            bw.write(String.valueOf(N));
+        }
+        
         bw.flush();
     }
 }
