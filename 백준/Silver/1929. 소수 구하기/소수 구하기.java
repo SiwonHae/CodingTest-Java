@@ -2,34 +2,42 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    static boolean[] primeState;
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
-        int m = Integer.parseInt(st.nextToken());
-        int n = Integer.parseInt(st.nextToken());
-
-        while (m != n + 1) {
-            if (isPrime(m)) {
-                bw.write(m + "\n");
+        
+        int M = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
+        
+        primeState = new boolean[N + 1];
+        
+        sieve(N);
+        
+        for (int i = M; i <= N; i++) {
+            if (primeState[i]) {
+                bw.write(String.valueOf(i));
+                bw.write("\n");
             }
-            m++;
         }
+        
         bw.flush();
     }
-
-    public static boolean isPrime(long num) {
-        if (num == 1) {
-            return false;
-        }
-
-        for (long i = 2; i <= Math.sqrt(num); i++) {
-            if (num % i == 0) {
-                return false;
+    
+    public static void sieve(int n) {
+        Arrays.fill(primeState, true);
+        primeState[1] = false;
+        
+        for (int i = 2; i * i <= n; i++) {
+            if (!primeState[i]) {
+                continue;
+            }
+            
+            for (int j = i * i; j <= n; j += i) {
+                primeState[j] = false;
             }
         }
-
-        return true;
     }
 }
