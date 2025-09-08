@@ -22,28 +22,14 @@ public class Main {
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < M; i++) {
             int num = Integer.parseInt(st.nextToken());
-            bw.write(String.valueOf(binarySearch(num)));
-            bw.newLine();
-        }
-        
-        bw.flush();
-    }
-    
-    public static int binarySearch(int target) {
-        int start = 0;
-        int end = N - 1;
-        
-        while (start <= end) {
-            int mid = (start + end) / 2;
-            if (A[mid] < target) {
-                start = mid + 1;
-            } else if (A[mid] > target) {
-                end = mid - 1;
+            int result = Arrays.binarySearch(A, num);
+            if (result >= 0) {
+                bw.write("1\n");
             } else {
-                return 1;
+                bw.write("0\n");
             }
         }
         
-        return 0;
+        bw.flush();
     }
 }
