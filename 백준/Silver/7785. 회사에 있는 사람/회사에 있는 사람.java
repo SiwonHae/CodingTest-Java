@@ -5,27 +5,34 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        int n = Integer.parseInt(st.nextToken());
-
-        Map<String, String> input = new HashMap<>();
+        
+        int n = Integer.parseInt(br.readLine());
+        
+        Set<String> set = new HashSet<>();
+        
         for (int i = 0; i < n; i++) {
-            st = new StringTokenizer(br.readLine());
+            StringTokenizer st = new StringTokenizer(br.readLine());
             String name = st.nextToken();
-            String command = st.nextToken();
-            input.put(name, command);
-        }
-
-        List<String> nameList = new ArrayList<>(input.keySet());
-        Collections.sort(nameList, Collections.reverseOrder());
-
-        for (int i = 0; i < nameList.size(); i++) {
-            if (input.get(nameList.get(i)).equals("enter")) {
-                bw.write(nameList.get(i) + "\n");
+            String cmd = st.nextToken();
+            
+            if (cmd.equals("enter")) {
+                set.add(name);
+            } else {
+                set.remove(name);
             }
         }
-
+        
+        List<String> result = new ArrayList<>();
+        for (String name : set) {
+            result.add(name);
+        }
+        
+        Collections.sort(result, Collections.reverseOrder());
+        
+        for (String name : result) {
+            bw.write(name);
+            bw.newLine();
+        }
         bw.flush();
     }
 }
