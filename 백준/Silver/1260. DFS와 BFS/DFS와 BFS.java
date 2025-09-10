@@ -2,13 +2,10 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
     static int N, M, V;
-    static List<List<Integer>> board;
+    static List<List<Integer>> adjList;
     static boolean[] visited;
-    static List<Integer> dfsList = new ArrayList<>();
-    static List<Integer> bfsList = new ArrayList<>();
-
+    static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -18,73 +15,66 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
         V = Integer.parseInt(st.nextToken());
 
-        board = new ArrayList<>(); // adjacency list
+        adjList = new ArrayList<>();
         for (int i = 0; i <= N; i++) {
-            board.add(new ArrayList<>());
+            adjList.add(new ArrayList<>());
         }
 
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
+            int u = Integer.parseInt(st.nextToken());
+            int v = Integer.parseInt(st.nextToken());
 
-            board.get(a).add(b);
-            board.get(b).add(a);
+            adjList.get(u).add(v);
+            adjList.get(v).add(u);
         }
 
         for (int i = 1; i <= N; i++) {
-            Collections.sort(board.get(i));
+            Collections.sort(adjList.get(i));
         }
 
         visited = new boolean[N + 1];
         dfs(V);
-        visited = new boolean[N + 1];
+        bw.write(sb.toString() + "\n");
+
+        sb = new StringBuilder();
+        Arrays.fill(visited, false);
         bfs(V);
-
-        for (int i : dfsList) {
-            bw.write(i + " ");
-        }
-        bw.write("\n");
-
-        for (int i : bfsList) {
-            bw.write(i + " ");
-        }
+        bw.write(sb.toString() + "\n");
 
         bw.flush();
     }
 
-    public static void dfs(int v) {
-        if (visited[v]) {
-            return;
-        }
+    public static void dfs(int current) {
+        visited[current] = true;
+        sb.append(current).append(" ");
 
-        visited[v] = true;
-        dfsList.add(v);
-
-        for (int i : board.get(v)) {
-            if (!visited[i]) {
-                dfs(i);
+        for (int next : adjList.get(current)) {
+            if (visited[next]) {
+                continue;
             }
+            dfs(next);
         }
     }
 
-    public static void bfs(int v) {
-        Queue<Integer> queue = new LinkedList<>();
-
-        queue.add(v);
-        visited[v] = true;
+    public static void bfs(int start) {
+        Deque<Integer> queue = new ArrayDeque<>();
+        queue.offer(start);
+        visited[start] = true;
+        sb.append(start).append(" ");
 
         while (!queue.isEmpty()) {
             int current = queue.poll();
-            bfsList.add(current);
 
-            for (int i : board.get(current)) {
-                if (!visited[i]) {
-                    queue.add(i);
-                    visited[i] = true;
+            for (int next : adjList.get(current)) {
+                if (visited[next]) {
+                    continue;
                 }
+
+                queue.offer(next);
+                visited[next] = true;
+                sb.append(next).append(" ");
             }
         }
     }
-
 }
