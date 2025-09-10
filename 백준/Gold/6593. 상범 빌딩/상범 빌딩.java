@@ -75,17 +75,18 @@ public class Main {
                 int ny = dy[i] + y;
                 int nx = dx[i] + x;
                 
-                if (nz < 0 || nz >= L || ny < 0 || ny >= R || nx < 0 || nx >= C || dist[nz][ny][nx] != -1) {
+                if (nz < 0 || nz >= L || ny < 0 || ny >= R || nx < 0 || nx >= C) {
                     continue;
                 }
                 
-                if (board[nz][ny][nx] == '.') {
-                    queue.offer(new Point(nz, ny, nx));
-                    dist[nz][ny][nx] = dist[z][y][x] + 1;
+                if (dist[nz][ny][nx] != -1 || board[nz][ny][nx] == '#') {
+                    continue;
                 }
                 
+                queue.offer(new Point(nz, ny, nx));
+                dist[nz][ny][nx] = dist[z][y][x] + 1;
+                
                 if (board[nz][ny][nx] == 'E') {
-                    dist[nz][ny][nx] = dist[z][y][x] + 1;
                     return dist[nz][ny][nx];
                 }
             }
