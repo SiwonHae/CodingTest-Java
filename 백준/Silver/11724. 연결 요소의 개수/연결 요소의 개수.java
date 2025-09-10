@@ -2,12 +2,10 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
     static int N, M;
-    static List<List<Integer>> graph;
+    static List<Integer>[] adjList;
     static boolean[] visited;
-    static int result = 0;
-
+    static int result;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -16,43 +14,48 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        graph = new ArrayList<>(); // adj list
-        for (int i = 0; i < N + 1; i++) {
-            graph.add(new ArrayList<>());
+        adjList = new ArrayList[N + 1];
+        for (int i = 1; i <= N; i++) {
+            adjList[i] = new ArrayList<>();
         }
+        visited = new boolean[N + 1];
 
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
+            int u = Integer.parseInt(st.nextToken());
+            int v = Integer.parseInt(st.nextToken());
 
-            graph.get(a).add(b);
-            graph.get(b).add(a);
+            adjList[u].add(v);
+            adjList[v].add(u);
         }
 
-        visited = new boolean[N + 1];
-
-        for (int i = 1; i < N + 1; i++) {
-            if (!visited[i]) {
-                dfs(i);
-                result++;
-            }
-        }
+        bfs();
 
         bw.write(String.valueOf(result));
         bw.flush();
     }
 
-    public static void dfs(int v) {
-        if (visited[v]) {
-            return;
-        }
+    public static void bfs() {
+        for (int i = 1; i <= N; i++) {
+            if (visited[i]) {
+                continue;
+            }
 
-        visited[v] = true;
+            result++;
+            Deque<Integer> queue = new ArrayDeque<>();
+            queue.offer(i);
+            visited[i] = true;
 
-        for (int vertex : graph.get(v)) {
-            if (!visited[vertex]) {
-                dfs(vertex);
+            while (!queue.isEmpty()) {
+                int current = queue.poll();
+
+                for (int next : adjList[current]) {
+                    if (visited[next]) {
+                        continue;
+                    }
+                    queue.offer(next);
+                    visited[next] = true;
+                }
             }
         }
     }
