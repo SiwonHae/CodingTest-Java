@@ -36,17 +36,18 @@ public class Main {
     }
     
     public static void prim() {
-        PriorityQueue<Node> pq = new PriorityQueue<>((a, b) -> {
+        PriorityQueue<Edge> pq = new PriorityQueue<>((a, b) -> {
             return Integer.compare(a.weight, b.weight);
         });
         visited[1] = true;
         
         for (Node next : adjList.get(1)) {
-            pq.offer(next);
+            pq.offer(new Edge(1, next.to, next.weight));
         }
         
         while (!pq.isEmpty() && cnt < V - 1) {
-            Node current = pq.poll();
+            Edge current = pq.poll();
+            int from = current.from;
             int to = current.to;
             int weight = current.weight;
             
@@ -60,9 +61,21 @@ public class Main {
             
             for (Node next : adjList.get(to)) {
                 if (!visited[next.to]) {
-                    pq.offer(next);
+                    pq.offer(new Edge(current.to, next.to, next.weight));
                 }
             }
+        }
+    }
+    
+    static class Edge {
+        int from;
+        int to;
+        int weight;
+        
+        public Edge(int from, int to, int weight) {
+            this.from = from;
+            this.to = to;
+            this.weight = weight;
         }
     }
     
