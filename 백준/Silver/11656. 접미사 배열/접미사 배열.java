@@ -8,13 +8,10 @@ public class Main {
         
         String S = br.readLine();
         
-        StringBuilder sb = new StringBuilder();
         List<String> list = new ArrayList<>();
         
-        for (int i = S.length() - 1; i >= 0; i--) {
-            sb.append(S.charAt(i));
-            list.add(sb.reverse().toString());
-            sb.reverse();
+        for (int i = 0; i < S.length(); i++) {
+            list.add(S.substring(i));
         }
         
         Collections.sort(list);
