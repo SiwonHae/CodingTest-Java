@@ -1,15 +1,13 @@
 class Solution {
     public long solution(long n) {
-        long answer = 0;
-
-        double num = Math.sqrt(n);
-
-        if (num % 1 == 0.0) {
-            answer = (long) ((num + 1) * (num + 1));
-        } else {
-            answer = -1;
+        long answer = -1;
+        
+        long sqrt = (long) Math.sqrt(n);
+        
+        if (sqrt * sqrt == n) {
+            return (sqrt + 1) * (sqrt + 1);
         }
-
+        
         return answer;
     }
 }
