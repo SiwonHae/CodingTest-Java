@@ -1,14 +1,18 @@
+import java.util.*;
+
 class Solution {
     public int[] solution(long n) {
-
-        String s = String.valueOf(n);
-        char[] cArr = s.toCharArray();
-
-        int[] answer = new int[cArr.length];
+        List<Long> list = new ArrayList<>();
         
-        int idx = cArr.length - 1;
-        for (int i = 0; i < cArr.length; i++) {
-            answer[i] = Integer.parseInt(String.valueOf(cArr[idx--]));
+        while (n > 0) {
+            list.add(n % 10);
+            n /= 10;
+        }
+        
+        
+        int[] answer = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            answer[i] = list.get(i).intValue();
         }
         
         return answer;
