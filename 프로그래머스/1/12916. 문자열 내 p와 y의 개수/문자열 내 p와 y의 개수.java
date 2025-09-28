@@ -1,20 +1,20 @@
 class Solution {
     boolean solution(String s) {
         boolean answer = true;
-        
-        int p = 0;
-        int y = 0;
-        
+
         s = s.toLowerCase();
+        
+        int pCnt = 0;
+        int yCnt = 0;
         for (char c : s.toCharArray()) {
             if (c == 'p') {
-                p++;
+                pCnt++;
             } else if (c == 'y') {
-                y++;
+                yCnt++;
             }
         }
         
-        if (p != y) {
+        if (pCnt != yCnt) {
             answer = false;
         }
 
