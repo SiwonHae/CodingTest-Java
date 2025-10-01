@@ -3,14 +3,7 @@ class Solution {
         int answer = 0;
         
         for (int i = left; i <= right; i++) {
-            int cnt = 0;
-            for (int j = 1; j <= i; j++) {
-                if (i % j == 0) {
-                    cnt++;
-                }
-            }
-            
-            if (cnt % 2 == 0) {
+            if (solve(i) % 2 == 0) {
                 answer += i;
             } else {
                 answer -= i;
@@ -18,5 +11,17 @@ class Solution {
         }
         
         return answer;
+    }
+    
+    public int solve(int num) {
+        int sum = 0;
+        
+        for (int i = 1; i <= num; i++) {
+            if (num % i == 0) {
+                sum++;
+            }
+        }
+        
+        return sum;
     }
 }
