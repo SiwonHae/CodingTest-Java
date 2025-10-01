@@ -1,9 +1,17 @@
 class Solution {
     public boolean solution(String s) {
         boolean answer = true;
-
-        answer = s.matches("[0-9]{4}|[0-9]{6}");
- 
+        
+        if (s.length() != 4 && s.length() != 6) {
+            return false;
+        }
+        
+        for (char c : s.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        
         return answer;
     }
 }
