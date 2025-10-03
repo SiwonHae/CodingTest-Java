@@ -1,26 +1,24 @@
 class Solution {
     public String solution(String s) {
-        String answer = "";
-
         StringBuilder sb = new StringBuilder();
-        boolean isUpper = true;
-
-        for (char c : s.toCharArray()) {
-            if (!Character.isAlphabetic(c)) {
-                sb.append(c);
-                isUpper = true;
+        
+        int idx = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            
+            if (c == ' ') {
+                sb.append(" ");
+                idx = 0;
             } else {
-                if (isUpper) {
+                if (idx % 2 == 0) {
                     sb.append(Character.toUpperCase(c));
                 } else {
                     sb.append(Character.toLowerCase(c));
                 }
-                isUpper = !isUpper;
+                idx++;
             }
         }
-
-        answer = sb.toString();
-
-        return answer;
+        
+        return sb.toString();
     }
 }
