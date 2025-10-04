@@ -1,26 +1,23 @@
+import java.util.*;
+
 class Solution {
     public int[] solution(String s) {
         int[] answer = new int[s.length()];
-        answer[0] = -1;
-
-        String[] str = s.split("");
-
-        for (int i = 1; i < s.length(); i++) {
-            if (s.substring(0, i).contains(str[i])) {
-                StringBuffer sbf = new StringBuffer(s.substring(0, i));
-                String reverse = sbf.reverse().toString();
-
-                int index = 0;
-                while (reverse.charAt(index) != str[i].charAt(0)) {
-                    index++;
-                }
-                
-                answer[i] = index + 1;
-            } else {
+        
+        int[] chars = new int[26];
+        Arrays.fill(chars, -1);
+        
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            
+            if (chars[c - 'a'] == -1) {
                 answer[i] = -1;
+            } else {
+                answer[i] = i - chars[c - 'a'];
             }
+            chars[c - 'a'] = i;
         }
-
+        
         return answer;
     }
 }
