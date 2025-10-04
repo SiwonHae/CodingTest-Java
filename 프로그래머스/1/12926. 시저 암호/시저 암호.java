@@ -1,29 +1,21 @@
 class Solution {
-
-    private char push(char c, int n) {
-        if (!Character.isAlphabetic(c)) {
-                return c;
-        }
-
-        // 대문자면 'A', 소문자면 'a'
-        int offset = Character.isUpperCase(c) ? 'A' : 'a';
-        int pos = c - offset;
-        pos = (pos + n) % 26;
-
-        return (char) (offset + pos);
-    }
-
     public String solution(String s, int n) {
-        String answer = "";
-
         StringBuilder sb = new StringBuilder();
+        
         for (char c : s.toCharArray()) {
-            char newC = push(c, n);
-            sb.append(newC);
+            if (c == ' ') {
+                sb.append(c);
+            } else if (c >= 'a' && c <= 'z') {
+                // 소문자 처리
+                char shifted = (char) ((c - 'a' + n) % 26 + 'a');
+                sb.append(shifted);
+            } else if (c >= 'A' && c <= 'Z') {
+                // 대문자 처리
+                char shifted = (char) ((c - 'A' + n) % 26 + 'A');
+                sb.append(shifted);
+            }
         }
-
-        answer = sb.toString();
-
-        return answer;
+        
+        return sb.toString();
     }
 }
