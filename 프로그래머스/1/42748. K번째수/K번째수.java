@@ -5,18 +5,19 @@ class Solution {
         int[] answer = new int[commands.length];
         
         for (int i = 0; i < commands.length; i++) {
-            int a = commands[i][0] - 1;
-            int b = commands[i][1];
-            int c = commands[i][2] - 1;
+            int[] command = commands[i];
             
-            List<Integer> temp = new ArrayList<>();
+            int start = command[0] - 1;
+            int end = command[1];
+            int target = command[2] - 1;
             
-            for (int j = a; j < b; j++) {
-                temp.add(array[j]);
+            List<Integer> list = new ArrayList<>();
+            for (int j = start; j < end; j++) {
+                list.add(array[j]);
             }
-            Collections.sort(temp);
+            Collections.sort(list);
             
-            answer[i] = temp.get(c);
+            answer[i] = list.get(target);
         }
         
         return answer;
