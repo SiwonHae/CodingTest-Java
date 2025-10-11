@@ -1,28 +1,22 @@
 class Solution {
     public String[] solution(int n, int[] arr1, int[] arr2) {
         String[] answer = new String[n];
-
-        for (int i = 0; i < arr1.length; i++) {
-            String binaryMap1 = Integer.toBinaryString(arr1[i]);
-            String binaryMap2 = Integer.toBinaryString(arr2[i]);
-            while (binaryMap1.length() != n) {
-                binaryMap1 = "0" + binaryMap1;
-            }
-            while (binaryMap2.length() != n) {
-                binaryMap2 = "0" + binaryMap2;
-            }
-
-            String line = "";
-            for (int j = 0; j < n; j++) {
-                if (binaryMap1.charAt(j) == '1' || binaryMap2.charAt(j) == '1') {
-                    line += "#";
+        
+        for (int i = 0; i < n; i++) {
+            int or = arr1[i] | arr2[i];
+            StringBuilder sb = new StringBuilder();
+            
+            for (int j = n - 1; j >= 0; j--) {
+                if ((or & (1 << j)) != 0) {
+                    sb.append("#");
                 } else {
-                    line += " ";
+                    sb.append(" ");
                 }
             }
-            answer[i] = line;
+            
+            answer[i] = sb.toString();
         }
-
+        
         return answer;
     }
 }
