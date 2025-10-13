@@ -2,17 +2,16 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] nums) {
-        int answer = 0;
         
         Set<Integer> set = new HashSet<>();
-        for (int i : nums) {
-            set.add(i);
+        for (int x : nums) {
+            set.add(x);
         }
         
-        int pick = nums.length / 2;
-        
-        answer = Math.min(pick, set.size());
-        
-        return answer;
+        if (set.size() > nums.length / 2) {
+            return nums.length / 2;
+        } else {
+            return set.size();
+        }
     }
 }
