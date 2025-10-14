@@ -1,18 +1,18 @@
 class Solution {
     public String solution(int a, int b) {
-        String answer = "";
-
-        String[] day = {"FRI", "SAT", "SUN", "MON", "TUE", "WED", "THU"};
-        int[] month = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 30};
-
-        int date = 0;
+        
+        // 2월 29일까지
+        String[] days = {"THU", "FRI", "SAT", "SUN", "MON", "TUE", "WED"};
+        int[] daysInMonth = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        
+        int totalDays = 0;
+        
         for (int i = 0; i < a - 1; i++) {
-            date += month[i];
+            totalDays += daysInMonth[i];
         }
-        date += b - 1; // 배열 인덱스가 0 부터 시작하므로 -1
-
-        answer = day[date % 7];
-
-        return answer;
+        
+        totalDays += b;
+        
+        return days[totalDays % 7];
     }
 }
