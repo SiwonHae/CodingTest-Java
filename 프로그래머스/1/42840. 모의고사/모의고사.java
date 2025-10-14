@@ -1,60 +1,47 @@
 import java.util.*;
-import java.util.stream.*;
 
 class Solution {
-    public int[] solution(int[] answers) {
-        List<Integer> list = new ArrayList<>();
-        
+    public int[] solution(int[] answers) {        
         int[] one = {1, 2, 3, 4, 5};
         int[] two = {2, 1, 2, 3, 2, 4, 2, 5};
         int[] three = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
         
-        int oneCnt = 0;
-        int twoCnt = 0;
-        int threeCnt = 0;
+        int sum1 = 0;
+        int sum2 = 0;
+        int sum3 = 0;
         
         for (int i = 0; i < answers.length; i++) {
-            int oneIdx = i % one.length;
-            int twoIdx = i % two.length;
-            int threeIdx = i % three.length;
-            
             int answer = answers[i];
             
-            if (answer == one[oneIdx]) {
-                oneCnt++;
-            } 
-            if (answer == two[twoIdx]) {
-                twoCnt++;
+            if (one[i % one.length] == answer) {
+                sum1++;
             }
-            if (answer == three[threeIdx]) {
-                threeCnt++;
+            if (two[i % two.length] == answer) {
+                sum2++;
             }
-        }
-        
-        int max = oneCnt;
-        list.add(1);
-        
-        if (max <= twoCnt) {
-            if (max == twoCnt) {
-                list.add(2);
-            } else {
-                max = twoCnt;
-                list.remove(0);
-                list.add(2);
-            }
-        } 
-        if (max <= threeCnt) {
-            if (max == threeCnt) {
-                list.add(3);
-            } else {
-                max = threeCnt;
-                list.clear();
-                list.add(3);
+            if (three[i % three.length] == answer) {
+                sum3++;
             }
         }
         
-        return list.stream()
-            .mapToInt(Integer::intValue)
-            .toArray();
+        int max = Math.max(sum1, Math.max(sum2, sum3));
+
+        List<Integer> list = new ArrayList<>();
+        if (sum1 == max) {
+            list.add(1);
+        }
+        if (sum2 == max) {
+            list.add(2);
+        }
+        if (sum3 == max) {
+            list.add(3);
+        }
+
+        int[] answer = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            answer[i] = list.get(i);
+        }
+        
+        return answer;
     }
 }
