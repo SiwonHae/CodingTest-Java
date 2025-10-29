@@ -1,4 +1,7 @@
 class Solution {
+    static int[] dy = {1, 0, -1};
+    static int[] dx = {0, 1, -1};
+    
     public int[] solution(int n) {
         int num = 0;
         for (int i = 1; i <= n; i++) {
@@ -12,41 +15,22 @@ class Solution {
         
         int y = 0;
         int x = 0;
-        int cur = 1;
-        while (cur <= num) {
-            // 아래로 채우기
-            while (y < n) {
-                if (arr[y][x] != 0) {
-                    break;
-                }
-                arr[y][x] = cur++;
-                y++;
-            }
-            y--;
-            x++;
+        int dir = 0;
+        
+        for (int i = 1; i <= num; i++) {
+            arr[y][x] = i;
             
-            // 오른쪽으로 채우기
-            while (x < arr[y].length) {
-                if (arr[y][x] != 0) {
-                    break;
-                }
-                arr[y][x] = cur++;
-                x++;
-            }
-            x -= 2;
-            y--;
+            int ny = y + dy[dir];
+            int nx = x + dx[dir];
             
-            // 왼쪽 위 대각선으로 채우기
-            while (y >= 0 && x >= 0) {
-                if (arr[y][x] != 0) {
-                    break;
-                }
-                arr[y][x] = cur++;
-                y--;
-                x--;
+            if (ny < 0 || ny >= n || nx < 0 || nx >= arr[ny].length || arr[ny][nx] != 0) {
+                dir = (dir + 1) % 3;
+                ny = y + dy[dir];
+                nx = x + dx[dir];
             }
-            y += 2;
-            x++;
+            
+            y = ny;
+            x = nx;
         }
         
         int[] answer = new int[num];
