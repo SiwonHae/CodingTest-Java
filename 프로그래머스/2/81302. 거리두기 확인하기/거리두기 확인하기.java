@@ -1,92 +1,91 @@
 import java.util.*;
 
 class Solution {
+    static int[] dy = {-1, 1, 0, 0};
+    static int[] dx = {0, 0, -1, 1};
+    static char[][] arr;
+    static boolean[][] visited;
+    static Deque<Point> queue = new ArrayDeque<>();
+    
+    public int[] solution(String[][] places) {
+        int[] answer = new int[5];
+        
+        for (int i = 0; i < 5; i++) {
+            arr = new char[5][5];
+            
+            for (int j = 0; j < 5; j++) {
+                arr[j] = places[i][j].toCharArray();
+            }
+            
+            answer[i] = 1;
+            
+            for (int y = 0; y < 5; y++) {
+                for (int x = 0; x < 5; x++) {
+                    if (arr[y][x] == 'P') {
+                        if (bfs(y, x) == 0) {
+                            answer[i] = 0;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return answer;
+    }
+    
+    public static int bfs(int startY, int startX) {
+        visited = new boolean[5][5];
+        queue.clear();
 
-    // x 변화량 (상, 좌, 우, 하)
-    private static final int dx[] = {0, -1, 1, 0};
-    // y 변화량 (상, 좌, 우, 하)
-    private static final int dy[] = {-1, 0, 0, 1};
-
-    // 거리두기 검사 메서드 (대기실)
-    private boolean isDistanced(char[][] room) {
-        for (int y = 0; y < room.length; y++) {
-            for (int x = 0; x < room[0].length; x++) {
-                if (room[y][x] != 'P') {
+        queue.offer(new Point(startY, startX, 0));
+        visited[startY][startX] = true;
+        
+        while (!queue.isEmpty()) {
+            Point current = queue.poll();
+            int y = current.y;
+            int x = current.x;
+            int dist = current.dist;
+            
+            if (dist > 0 && arr[y][x] == 'P') {
+                return 0;
+            }
+            
+            if (dist >= 2) {
+                continue;
+            }
+            
+            for (int i = 0; i < 4; i++) {
+                int ny = y + dy[i];
+                int nx = x + dx[i];
+                
+                if (ny < 0 || ny >= 5 || nx < 0 || nx >= 5) {
                     continue;
                 }
-                if (!isDistanced(room, x, y)) {
-                    return false;
+                if (visited[ny][nx]) {
+                    continue;
                 }
+                if (arr[ny][nx] == 'X') {
+                    continue;
+                }
+                
+                visited[ny][nx] = true;
+                queue.offer(new Point(ny, nx, dist + 1));
             }
         }
-
-        return true;
+        
+        return 1;
     }
-
-    // 거리두기 검사 메서드 (대기실의 x, y 좌표에 있는 사람)
-    private boolean isDistanced(char[][] room, int x, int y) {
-        for (int d = 0; d < 4; d++) {
-            int nx = x + dx[d];
-            int ny = y + dy[d];
-
-            if (ny < 0 || ny >= room.length || nx < 0 || nx >= room[ny].length) {
-                continue;
-            }
-
-            switch (room[ny][nx]) {
-                case 'P':
-                    return false;
-                case 'O':
-                    if (isNextToVolunteer(room, nx, ny, 3 - d)) {
-                        return false;
-                    }
-                    break;
-            }
+    
+    static class Point {
+        int y;
+        int x;
+        int dist;
+        
+        public Point(int y, int x, int dist) {
+            this.y = y;
+            this.x = x;
+            this.dist = dist;
         }
-
-        return true;
-    }
-
-    private boolean isNextToVolunteer(char[][] room, int x, int y, int exclude) {
-        for (int d = 0; d < 4; d++) {
-            if (d == exclude) {
-                continue;
-            }
-
-            int nx = x + dx[d];
-            int ny = y + dy[d];
-            if (ny < 0 || ny >= room.length || nx < 0 || nx >= room[ny].length) {
-                continue;
-            }
-            if (room[ny][nx] == 'P') {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public int[] solution(String[][] places) {
-        // 대기실은 5 x 5 크기.
-        // 맨해튼 거리 |x1 - x2| + |y1 - y2|
-
-        int[] answer = new int[places.length];
-
-        for (int i = 0; i < places.length; i++) {
-            String[] place = places[i];
-            char[][] room = new char[5][5];
-
-            for (int j = 0; j < places[0].length; j++) {
-                room[j] = place[j].toCharArray();
-            }
-
-            if (isDistanced(room)) {
-                answer[i] = 1;
-            } else {
-                answer[i] = 0;
-            }
-        }
-
-        return answer;
     }
 }
