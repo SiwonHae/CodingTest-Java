@@ -1,36 +1,31 @@
 class Solution {
-
-    private int countZeros(String s) {
-        int zeros = 0;
-
-        for (char c : s.toCharArray()) {
-            if (c == '0') {
-                zeros++;
-            }
-        }
-
-        return zeros;
-    }
-
     public int[] solution(String s) {
         int[] answer = new int[2];
-
-        int loop = 0;
-        int removed = 0;
-
-        while (!s.equals("1")) {
-            int zeros = countZeros(s);
-            removed += zeros;
-            loop++;
-
-            int length = s.length() - zeros;
-            s = Integer.toBinaryString(length);
+        int zero = 0;
+        int n = 0;
+        
+        char[] x = s.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        
+        while (!sb.toString().equals("1")) {
+            sb = new StringBuilder();            
+            
+            for (char c : x) {
+                if (c == '1') {
+                    sb.append(c);
+                } else {
+                    zero++;
+                }
+            }
+            
+            int c = sb.length();
+            x = Integer.toBinaryString(c).toCharArray();
+            n++;
         }
-
-
-        answer[0] = loop;
-        answer[1] = removed;
-
+        
+        answer[0] = n;
+        answer[1] = zero;
+        
         return answer;
     }
 }
