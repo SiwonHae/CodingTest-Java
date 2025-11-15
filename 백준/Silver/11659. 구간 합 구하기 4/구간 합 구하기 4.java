@@ -10,21 +10,18 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
         
-        int[] arr = new int[N + 1];
-        int[] dp = new int[N + 1];
-        
+        int[] pSum = new int[N + 1];
         st = new StringTokenizer(br.readLine());
         for (int i = 1; i <= N; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-            dp[i] = dp[i - 1] + arr[i];
+            pSum[i] = pSum[i - 1] + Integer.parseInt(st.nextToken());
         }
         
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
+            int start = Integer.parseInt(st.nextToken());
+            int end = Integer.parseInt(st.nextToken());
             
-            bw.write(dp[b] - dp[a - 1] + "\n");
+            bw.write(pSum[end] - pSum[start - 1] + "\n");
         }
         
         bw.flush();
